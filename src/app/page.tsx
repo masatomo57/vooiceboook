@@ -1,7 +1,11 @@
 import Image from 'next/image'
 import styles from './page.module.css'
+import { initializeFirebaseApp } from './lib/firebase'
+import { getApp } from 'firebase/app';
 
+initializeFirebaseApp();
 export default function Home() {
+  console.log(getApp());
   return (
     <main className={styles.main}>
       <div className={styles.description}>
