@@ -6,8 +6,6 @@ initializeFirebaseApp();
 export default function Home() {
   console.log(getApp());
   return (
-    <ChakraProvider>
-      <Box>Hello world</Box>
-    </ChakraProvider>
+    <Box>Hello world</Box>
   )
 }
