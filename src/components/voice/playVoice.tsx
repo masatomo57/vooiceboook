@@ -1,14 +1,17 @@
 "use client"
 
-import useSound from 'use-sound';
-import Button from "@chakra-ui/react"
+import { Button } from '@chakra-ui/react';
+// @ts-ignore
+import useSound from 'use-sound'
 
 const PlayVoice = ({ params }: { params: { voiceUrl: string }}) => {
     const [play] = useSound(params.voiceUrl);
 
     return (
         <>
-            <Button onClick={() => play()}></Button>
+            <Button onClick={play}>
+                サンプル
+            </Button>
         </>
     )
 }
