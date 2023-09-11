@@ -17,22 +17,24 @@ users
 └── workList   ユーザーが投稿した作品リスト
  
 books
-├── id               本のID
-├── name             本の名
-├── contents         本のコンテンツ
-├── index            本の巻数        
-├── voiceList        本に投稿されている音声のリスト
-├── ISBNcode         本に投稿されている音声のリスト
-├── thonbnailUrl     サムネイルのURL
-└── author           本のデータ
+├── id           本のID
+├── name         本の名
+├── contents     本のコンテンツ
+├── price        本の値段
+├── index        本の巻数        
+├── voiceList    本に投稿されている音声のリスト
+├── ISBNcode     本に投稿されている音声のリスト
+├── thonbnailUrl サムネイルのURL
+└── author       本のデータ
 
 voices
-├── id               音声のID
-├── name             音声の名
-├── userId           投稿者のID
-├── bookId           どの書籍に音声が投稿されているのか
-├── url              投稿先URL
-└── contents         音声のコンテンツ
+├── id           音声のID
+├── name         音声の名
+├── price        音声の値段
+├── userId       投稿者のID
+├── bookId       どの書籍に音声が投稿されているのか
+├── url          投稿先URL
+└── contents     音声のコンテンツ
 ```
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
