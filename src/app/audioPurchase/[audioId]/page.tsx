@@ -18,7 +18,18 @@ interface Voicedata {
     userId: string
 }
 
-const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
+type Book = {
+    id: string
+    name: string
+    contents: string
+    voiceList: []
+    author: string
+    index: number
+    thumbnailUrl: string
+    ISBNcode: string
+}
+
+const BookPurchase = ({ params }: { params: { audioId : string }}) => {
     const book: Bookdata = {
         imageUrl: "test",
         title: "ワンピース第1巻"
@@ -40,6 +51,9 @@ const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
             <Stack direction={"row"}>
                 <Voicecontent imageUrl={voice.imageUrl} title={voice.title} price={voice.price} userName={voice.userName} userId={voice.userId} />
                 <PurchaseButton onClick={onClick} />
+            </Stack>
+            <Stack direction={"row"}>
+                <PlaySample voiceUrl={voiceUrl}/>
             </Stack>
         </Stack>
     )
