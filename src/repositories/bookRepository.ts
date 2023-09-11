@@ -1,5 +1,5 @@
 import { app } from "@/lib/firebase";
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 type Book = {
@@ -50,15 +50,13 @@ const bookRepository = {
     async getBook(bookid:string): Promise<Book> {
         const firestore = getFirestore(app);
         const booksRef = collection(firestore, `books`);
-        const bookQuery = query(booksRef, where("id", "==", bookid))
-        const snapshot = await getDocs(bookQuery);
-        const books:Book[] = [];
-        snapshot.forEach((doc) => {
-            books.push(doc.data() as Book)
-        })
-        console.log(books[0])
-        return books[0]
-
+        const bookRef = doc(booksRef, bookid);
+        const snapshot = await getDoc(bookRef);
+        if (snapshot.data() === undefined) {
+            throw Error("book not found")
+        }
+        const book = snapshot.data() as Book
+        return book
     }
 }
 
