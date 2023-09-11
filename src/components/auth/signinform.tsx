@@ -2,7 +2,7 @@
 import { Button, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 
-function FormikExample() {
+function SigninForm() {
   
     return (
       <Formik
@@ -47,3 +47,5 @@ function FormikExample() {
       </Formik>
     )
   }
+
+export default SigninForm
