@@ -1,5 +1,6 @@
 "use client"
 
+import { VoiceType } from '@/lib/type'
 import {
     Container,
     Box,
@@ -13,18 +14,8 @@ import {
     Button,
     Link,
   } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
 
-interface Props {
-    id: string,
-    imageUrl: string,
-    title: string,
-    price: number,
-    userName: string,
-    userId: string
-}
-
-export function Voicecontent ({ id, imageUrl, title, price, userName, userId }: Props) {
+export function Voicecontent ({ id, bookId, name, price, url, userId, userName, thumbnailUrl}: VoiceType) {
 
     return (
         <Card
@@ -35,14 +26,14 @@ export function Voicecontent ({ id, imageUrl, title, price, userName, userId }: 
             <Image
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
-                src={imageUrl}
+                src={thumbnailUrl}
                 alt='Caffe Latte'
             />
 
             <Stack>
                 <CardBody>
                 <Link href={`/audioPurchase/${id}`}>
-                    <Heading size='md'>{title}</Heading>
+                    <Heading size='md'>{name}</Heading>
                 </Link>
                 <Link href={`/user/${userId}`}>
                     <Text py='2'>
@@ -60,11 +51,11 @@ export function Voicecontent ({ id, imageUrl, title, price, userName, userId }: 
 
 
 
-function Voicecontentlist ( props : { datalist: Props[] }) {
+function Voicecontentlist ( props : { datalist?: VoiceType[] }) {
     return (
         <Stack dir='row' gap={4}>
-            {props.datalist.map((data)=>{
-                return <Voicecontent id={data.id} imageUrl={data.imageUrl} title={data.title} price={data.price} userName={data.userName} userId={data.userId} />
+            {props.datalist?.map((data)=>{
+                return <Voicecontent id={data.id} bookId={data.bookId} name={data.name} price={data.price} url={data.url} userId={data.userId} userName={data.userName} thumbnailUrl={data.thumbnailUrl} />
             })}
         </Stack>
     )

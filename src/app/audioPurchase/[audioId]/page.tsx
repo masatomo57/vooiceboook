@@ -4,21 +4,7 @@ import { Stack } from "@chakra-ui/layout"
 import { Bookcontent } from "@/components/book/bookcontent"
 import { Voicecontent } from "@/components/voice/voicecontent"
 import PurchaseButton from "@/components/purchaseButton"
-
-interface Bookdata {
-    id: string,
-    imageUrl: string,
-    title: string,
-    price: number,
-    author: string
-}
-interface Voicedata {
-    imageUrl: string
-    title: string,
-    price: number,
-    userName: string,
-    userId: string
-}
+import { Bookdata } from "@/lib/type"
 
 
 const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
