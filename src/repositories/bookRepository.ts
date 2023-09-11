@@ -1,16 +1,17 @@
 import { app } from "@/lib/firebase";
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 type Book = {
     id: string
     name: string
     contents: string
-    voiceList: []
-    author: string
+    price: number
     index: number
-    thumbnailUrl: string
+    voiceList: []
     ISBNcode: string
+    thumbnailUrl: string
+    author: string
 }
 
 const bookRepository = {
@@ -22,10 +23,12 @@ const bookRepository = {
             id:bookId,
             name:'呪術廻戦',
             contents:'ジャンプコミックです。',
-            voiceList:[],
-            author:'芥見下下',
+            price: 495,
             index:1,
+            voiceList:[],
             ISBNcode:'978-4-08-881516-9',
+            thumbnailUrl:'',
+            author:'芥見下下',
         });
 
         console.log(books);
@@ -41,6 +44,20 @@ const bookRepository = {
         })
         
         return books
+
+    },
+
+    async getBook(bookid:string): Promise<Book> {
+        const firestore = getFirestore(app);
+        const booksRef = collection(firestore, `books`);
+        const bookQuery = query(booksRef, where("id", "==", bookid))
+        const snapshot = await getDocs(bookQuery);
+        const books:Book[] = [];
+        snapshot.forEach((doc) => {
+            books.push(doc.data() as Book)
+        })
+        console.log(books[0])
+        return books[0]
 
     }
 }
