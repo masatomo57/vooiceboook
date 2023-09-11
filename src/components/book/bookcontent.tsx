@@ -11,20 +11,23 @@ import {
     CardBody,
     CardFooter,
     Button,
+    Link,
   } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
-interface Props {
-    imageUrl: string,
-    title: string,
-    price: number,
+type Bookdata = {
+    id: string
+    title: string
+    contents?: string
+    voiceList?: any[]
+    author: string
+    index?: number
+    thumbnailUrl: string
+    ISBNcode?: string
+    price: number
 }
 
-function Bookcontent ({ imageUrl, title, price }: Props) {
-    const router = useRouter()
-    const onClick = () => {
-        console.log('購入ボタンが押されました')
-    }
+export function Bookcontent ({ id, thumbnailUrl, title, price, author }: Bookdata) {
 
     return (
         <Card
@@ -35,23 +38,25 @@ function Bookcontent ({ imageUrl, title, price }: Props) {
             <Image
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
-                src={imageUrl}
+                src={thumbnailUrl}
                 alt='Caffe Latte'
             />
 
             <Stack>
                 <CardBody>
-                <Heading size='md'>{title}</Heading>
-
+                <Link href={`/bookPurchase/${id}`}>
+                    <Heading size='md'>{title}</Heading>
+                </Link>
+                <Text py='3'>
+                    {author}
+                </Text>
                 <Text py='2'>
                     {price}
                 </Text>
                 </CardBody>
 
                 <CardFooter>
-                <Button variant='solid' colorScheme='blue' onClick={onClick}>
-                    購入
-                </Button>
+                
                 </CardFooter>
             </Stack>
         </Card>
@@ -60,11 +65,11 @@ function Bookcontent ({ imageUrl, title, price }: Props) {
 
 
 
-function Bookcontentlist ( props : { datalist: Props[] }) {
+function Bookcontentlist ( props : { datalist: Bookdata[] }) {
     return (
         <Stack dir='row' gap={4}>
             {props.datalist.map((data)=>{
-                return <Bookcontent imageUrl={data.imageUrl} title={data.title} price={data.price} />
+                return <Bookcontent id={data.id} thumbnailUrl={data.thumbnailUrl} title={data.title} price={data.price} author={data.author}/>
             })}
         </Stack>
     )

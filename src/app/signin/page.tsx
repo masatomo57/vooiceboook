@@ -1,9 +1,11 @@
-const SigninContents = () => {
+"use client"
+
+import SigninForm from "@/components/auth/signinform"
+
+const Page = () => {
     return (
-        <div>
-            <h1>サインインページ</h1>
-        </div>
+        <SigninForm />
     )
 }
 
-export default SigninContents
+export default Page
