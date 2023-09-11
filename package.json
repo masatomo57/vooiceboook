@@ -29,5 +29,9 @@
     "react-router-dom": "^6.15.0",
     "typescript": "5.2.2",
     "use-sound": "^4.0.1"
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.3"
   }
 }

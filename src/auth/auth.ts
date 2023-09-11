@@ -22,7 +22,11 @@ export const signup = async(name:string, email:string, password:string) => {
             id: auth.currentUser.uid,
             name: name,
             email: email,
-            money: 10000
+            money: 10000,
+            bookList : [],
+            voiceList : [],
+            workList: [],
+            sampleList: [],
         })
     }
     catch (error) {
