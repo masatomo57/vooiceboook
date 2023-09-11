@@ -1,6 +1,6 @@
 "use client"
 
-import { VoiceType } from '@/lib/type'
+import { VoiceType } from '@/lib/dummy'
 import {
     Container,
     Box,
@@ -15,7 +15,7 @@ import {
     Link,
   } from '@chakra-ui/react'
 
-export function Voicecontent ({ id, bookId, name, price, url, userId, userName, thumbnailUrl}: VoiceType) {
+export function Voicecontent ( { voice } : { voice : VoiceType} ) {
 
     return (
         <Card
@@ -26,22 +26,22 @@ export function Voicecontent ({ id, bookId, name, price, url, userId, userName, 
             <Image
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
-                src={thumbnailUrl}
+                src={voice.thumbnailUrl}
                 alt='Caffe Latte'
             />
 
             <Stack>
                 <CardBody>
-                <Link href={`/audioPurchase/${id}`}>
-                    <Heading size='md'>{name}</Heading>
+                <Link href={`/audioPurchase/${voice.id}`}>
+                    <Heading size='md'>{voice.name}</Heading>
                 </Link>
-                <Link href={`/user/${userId}`}>
+                <Link href={`/user/${voice.userId}`}>
                     <Text py='2'>
-                        {userName}
+                        {voice.userName}
                     </Text>
                 </Link>
                 <Text py='2'>
-                    {price}
+                    {voice.price}
                 </Text>
                 </CardBody>
             </Stack>
@@ -51,11 +51,11 @@ export function Voicecontent ({ id, bookId, name, price, url, userId, userName, 
 
 
 
-function Voicecontentlist ( props : { datalist?: VoiceType[] }) {
+function Voicecontentlist ( { voiceList } : { voiceList : VoiceType[]} ) {
     return (
         <Stack dir='row' gap={4}>
-            {props.datalist?.map((data)=>{
-                return <Voicecontent id={data.id} bookId={data.bookId} name={data.name} price={data.price} url={data.url} userId={data.userId} userName={data.userName} thumbnailUrl={data.thumbnailUrl} />
+            {voiceList.map((voice)=>{
+                return <Voicecontent voice={voice} />
             })}
         </Stack>
     )

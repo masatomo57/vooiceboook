@@ -4,8 +4,8 @@ import { Button } from '@chakra-ui/react';
 // @ts-ignore
 import useSound from 'use-sound'
 
-const PlayVoice = ({ params }: { params: { voiceUrl: string }}) => {
-    const [play] = useSound(params.voiceUrl);
+const PlayVoice = ({ voiceUrl }: { voiceUrl: string }) => {
+    const [play] = useSound(voiceUrl);
 
     return (
         <>

@@ -1,8 +1,7 @@
 "use client"
 
+import { BookType } from '@/lib/dummy'
 import {
-    Container,
-    Box,
     Stack,
     Heading,
     Text,
@@ -10,25 +9,11 @@ import {
     Image,
     CardBody,
     CardFooter,
-    Button,
     Link,
   } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
-type Bookdata = {
-    id: string
-    title: string
-    contents?: string
-    voiceList?: any[]
-    author: string
-    index?: number
-    thumbnailUrl: string
-    ISBNcode?: string
-    price: number
-}
-
-export function Bookcontent ({ id, thumbnailUrl, title, price, author }: Bookdata) {
-
+export function Bookcontent ( { book } : { book: BookType} ) {
     return (
         <Card
             direction={{ base: 'column', sm: 'row' }}
@@ -38,20 +23,20 @@ export function Bookcontent ({ id, thumbnailUrl, title, price, author }: Bookdat
             <Image
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
-                src={thumbnailUrl}
+                src={book.thumbnailUrl}
                 alt='Caffe Latte'
             />
 
             <Stack>
                 <CardBody>
-                <Link href={`/bookPurchase/${id}`}>
-                    <Heading size='md'>{title}</Heading>
+                <Link href={`/bookPurchase/${book.id}`}>
+                    <Heading size='md'>{book.title}</Heading>
                 </Link>
                 <Text py='3'>
-                    {author}
+                    {book.author}
                 </Text>
                 <Text py='2'>
-                    {price}
+                    {book.price}
                 </Text>
                 </CardBody>
 
@@ -65,11 +50,11 @@ export function Bookcontent ({ id, thumbnailUrl, title, price, author }: Bookdat
 
 
 
-function Bookcontentlist ( props : { datalist: Bookdata[] }) {
+function Bookcontentlist ( { bookList } : { bookList: BookType[] }) {
     return (
         <Stack dir='row' gap={4}>
-            {props.datalist.map((data)=>{
-                return <Bookcontent id={data.id} thumbnailUrl={data.thumbnailUrl} title={data.title} price={data.price} author={data.author}/>
+            {bookList.map((book)=>{
+                return <Bookcontent book={book}/>
             })}
         </Stack>
     )
