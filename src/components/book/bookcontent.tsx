@@ -15,15 +15,19 @@ import {
   } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
-interface Props {
-    id: string,
-    imageUrl: string,
-    title: string,
-    price: number,
+type Bookdata = {
+    id: string
+    title: string
+    contents?: string
+    voiceList?: any[]
     author: string
+    index?: number
+    thumbnailUrl: string
+    ISBNcode?: string
+    price: number
 }
 
-export function Bookcontent ({ id, imageUrl, title, price, author }: Props) {
+export function Bookcontent ({ id, thumbnailUrl, title, price, author }: Bookdata) {
 
     return (
         <Card
@@ -34,7 +38,7 @@ export function Bookcontent ({ id, imageUrl, title, price, author }: Props) {
             <Image
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
-                src={imageUrl}
+                src={thumbnailUrl}
                 alt='Caffe Latte'
             />
 
@@ -61,11 +65,11 @@ export function Bookcontent ({ id, imageUrl, title, price, author }: Props) {
 
 
 
-function Bookcontentlist ( props : { datalist: Props[] }) {
+function Bookcontentlist ( props : { datalist: Bookdata[] }) {
     return (
         <Stack dir='row' gap={4}>
             {props.datalist.map((data)=>{
-                return <Bookcontent id={data.id} imageUrl={data.imageUrl} title={data.title} price={data.price} author={data.author} />
+                return <Bookcontent id={data.id} thumbnailUrl={data.thumbnailUrl} title={data.title} price={data.price} author={data.author}/>
             })}
         </Stack>
     )

@@ -9,10 +9,10 @@ type Bookdata = {
     id: string
     title: string
     contents?: string
-    voiceList: any[]
+    voiceList?: any[]
     author: string
     index?: number
-    imageUrl: string
+    thumbnailUrl: string
     ISBNcode?: string
     price: number
 }
@@ -39,7 +39,7 @@ const AudioPurchase = ({ params }: { params: { bookId : string }}) => {
             }
         ],
         author: "三浦糀",
-        imageUrl: "test",
+        thumbnailUrl: "test",
         price: 500
     }
 
