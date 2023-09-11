@@ -11,6 +11,7 @@ import {
     CardBody,
     CardFooter,
     Button,
+    Link,
   } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
@@ -18,14 +19,11 @@ interface Props {
     imageUrl: string,
     title: string,
     price: number,
+    userName: string,
     userId: string
 }
 
-export function Voicecontent ({ imageUrl, title, price, userId }: Props) {
-    const router = useRouter()
-    const onClick = () => {
-        console.log('購入ボタンが押されました')
-    }
+export function Voicecontent ({ imageUrl, title, price, userName, userId }: Props) {
 
     return (
         <Card
@@ -43,17 +41,15 @@ export function Voicecontent ({ imageUrl, title, price, userId }: Props) {
             <Stack>
                 <CardBody>
                 <Heading size='md'>{title}</Heading>
-
+                <Link href={`/user/${userId}`}>
+                    <Text py='2'>
+                        {userName}
+                    </Text>
+                </Link>
                 <Text py='2'>
                     {price}
                 </Text>
                 </CardBody>
-
-                <CardFooter>
-                <Button variant='solid' colorScheme='blue' onClick={onClick}>
-                    購入
-                </Button>
-                </CardFooter>
             </Stack>
         </Card>
     )
@@ -65,7 +61,7 @@ function Voicecontentlist ( props : { datalist: Props[] }) {
     return (
         <Stack dir='row' gap={4}>
             {props.datalist.map((data)=>{
-                return <Voicecontent imageUrl={data.imageUrl} title={data.title} price={data.price} userId={data.userId} />
+                return <Voicecontent imageUrl={data.imageUrl} title={data.title} price={data.price} userName={data.userName} userId={data.userId} />
             })}
         </Stack>
     )

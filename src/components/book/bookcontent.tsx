@@ -17,14 +17,10 @@ import { useRouter } from 'next/navigation'
 interface Props {
     imageUrl: string,
     title: string,
-    price: number,
+    price?: number,
 }
 
-function Bookcontent ({ imageUrl, title, price }: Props) {
-    const router = useRouter()
-    const onClick = () => {
-        console.log('購入ボタンが押されました')
-    }
+export function Bookcontent ({ imageUrl, title, price }: Props) {
 
     return (
         <Card
@@ -49,9 +45,7 @@ function Bookcontent ({ imageUrl, title, price }: Props) {
                 </CardBody>
 
                 <CardFooter>
-                <Button variant='solid' colorScheme='blue' onClick={onClick}>
-                    購入
-                </Button>
+                
                 </CardFooter>
             </Stack>
         </Card>
