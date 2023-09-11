@@ -1,9 +1,17 @@
 "use client"
 
-import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
-import { Stack, HStack, VStack } from '@chakra-ui/react'
-import { Heading, Text, Button } from '@chakra-ui/react'
-import { Image } from '../../../node_modules/@chakra-ui/next-js/dist/image'
+import {
+    Container,
+    Box,
+    Stack,
+    Heading,
+    Text,
+    Card,
+    Image,
+    CardBody,
+    CardFooter,
+    Button,
+  } from '@chakra-ui/react'
 
 interface Props {
     imageUrl: string,
@@ -12,7 +20,7 @@ interface Props {
     userId: string
 }
 
-const Voicecontent = ({ imageUrl, title, price, userId }: Props) => {
+function Voicecontent ({ imageUrl, title, price, userId }: Props) {
     return (
         <Card
             direction={{ base: 'column', sm: 'row' }}
@@ -43,6 +51,16 @@ const Voicecontent = ({ imageUrl, title, price, userId }: Props) => {
                 </CardFooter>
             </Stack>
         </Card>
+    )
+}
+
+
+
+function Voicecontentlist ( datalist : Props[]) {
+    return (
+        (datalist.map((data)=>{
+            <Voicecontent imageUrl={data.imageUrl} title={data.title} price={data.price} userId={data.userId} />
+        }))
     )
 }
 
