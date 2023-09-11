@@ -18,10 +18,9 @@ interface Props {
     imageUrl: string,
     title: string,
     price: number,
-    userId: string
 }
 
-function Voicecontent ({ imageUrl, title, price, userId }: Props) {
+function Bookcontent ({ imageUrl, title, price }: Props) {
     const router = useRouter()
     const onClick = () => {
         console.log('購入ボタンが押されました')
@@ -61,12 +60,12 @@ function Voicecontent ({ imageUrl, title, price, userId }: Props) {
 
 
 
-function Voicecontentlist ( datalist : Props[]) {
+function Bookcontentlist ( datalist : Props[]) {
     return (
         (datalist.map((data)=>{
-            <Voicecontent imageUrl={data.imageUrl} title={data.title} price={data.price} userId={data.userId} />
+            <Bookcontent imageUrl={data.imageUrl} title={data.title} price={data.price} />
         }))
     )
 }
 
-export default Voicecontentlist
+export default Bookcontentlist
