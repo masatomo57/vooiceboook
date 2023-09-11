@@ -40,6 +40,19 @@ const voiceRepository = {
 
         return voices
 
+    },
+
+    async getVoice(voiceId: string): Promise<Voice> {
+        const firestore = getFirestore(app);
+        const voicesRef = collection(firestore, `voices`);
+        const voiceRef = doc(voicesRef, voiceId);
+        const snapshot = await getDoc(voiceRef);
+        if (snapshot.data() === undefined) {
+            throw Error("voice not found")
+        }
+        const voice = snapshot.data() as Voice
+
+        return voice
     }
 }
 
