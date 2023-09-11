@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardBody, CardFooter } from '@chakra-ui/react'
 import { Stack, HStack, VStack } from '@chakra-ui/react'
-import { Heading } from '@chakra-ui/react'
+import { Heading, Text, Button } from '@chakra-ui/react'
 import { Image } from '../../../node_modules/@chakra-ui/next-js/dist/image'
 
 interface Props {
