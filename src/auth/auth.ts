@@ -9,4 +9,10 @@ export const signin = async(email:string, password:string) => {
         password
     )
     await sendEmailVerification(userCredential.user)
+
+    if (!auth.currentUser) {
+        throw new Error("User not found")
+    }
+    auth.currentUser
+
 }
