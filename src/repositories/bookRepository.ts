@@ -1,23 +1,23 @@
 import { app } from "@/lib/firebase";
-import { addDoc, collection, doc, getFirestore } from "firebase/firestore";
+import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
-
-const uniqueId = uuidv4();
-console.log('A unique ID:', uniqueId);
-
 
 const bookRepository = {
     async setDummyData(): Promise<any> {
+        const bookId = uuidv4();
         const firestore = getFirestore(app);
-        const usersRef = doc(firestore, 'books');
-        const user = await addDoc(usersRef, {
-            "140LwFp6Fs2oRbM4kVNn" : {
-                "username" : "hogehoge",
-                "userId" : "9437123984"
-            }
+        const booksRef = doc(firestore, `books/${bookId}`);
+        const books = await setDoc(booksRef, {
+            id:bookId,
+            name:'呪術廻戦',
+            contents:'ジャンプコミックです。',
+            voiceList:[],
+            author:'芥見下下',
+            index:1,
+            ISBNcode:'978-4-08-881516-9',
         });
 
-        console.log(user);
+        console.log(books);
     }
 }
 
