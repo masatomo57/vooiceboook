@@ -57,6 +57,7 @@ const userRepository = {
             userBookList.push(bookId)
             const userMoney = user.money - price
             await setDoc(userRef, {
+                ...user,
                 bookList: userBookList,
                 money: userMoney,
             });
@@ -77,6 +78,7 @@ const userRepository = {
             userVoiceList.push(voiceId)
             const userMoney = user.money - price
             await setDoc(userRef, {
+                ...user,
                 voiceList: userVoiceList,
                 money: userMoney,
             });
