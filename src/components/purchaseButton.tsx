@@ -1,8 +1,11 @@
+"use client"
+
 import { Button } from "@chakra-ui/react"
 
-const PurchaseButton = (onClick: any) => {
+const PurchaseButton = (props: {onClick: any}) => {
+    const onClick = props.onClick
     return (
-        <Button type="submit" onClick={onClick}>
+        <Button onClick={onClick}>
             購入する
         </Button>
     )

@@ -1,4 +1,6 @@
-import { Box, Stack } from "@chakra-ui/layout"
+"use client"
+
+import { Stack } from "@chakra-ui/layout"
 import { Bookcontent } from "@/components/book/bookcontent"
 import { Voicecontent } from "@/components/voice/voicecontent"
 import PurchaseButton from "@/components/purchaseButton"
