@@ -1,3 +1,36 @@
+# データベース設計
+
+```
+root
+├── users  ユーザーテーブル
+├── books  本のテーブル
+└── voices 音声のテーブル
+
+users
+├── id                ユーザーID
+├── name              ユーザー名
+├── email             ユーザーのメールアドレス
+├── money             ユーザーの所持金
+├── bookPurchaseList  ユーザーが購入した書籍リスト
+├── voicePurchaseList ユーザーが購入した音声リスト
+└── workList          ユーザーが投稿した作品リスト
+ 
+books
+├── id               本のID
+├── name             本の名
+├── contents         本のコンテンツ
+├── voiceList        本に投稿されている音声のリスト
+└── data             本のデータ
+
+voices
+├── id               音声のID
+├── name             音声の名
+├── userId           投稿者のID
+├── bookId           どの書籍に音声が投稿されているのか
+├── url              投稿先URL
+└── contents         音声のコンテンツ
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
