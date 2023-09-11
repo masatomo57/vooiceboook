@@ -11,16 +11,19 @@ import {
     CardBody,
     CardFooter,
     Button,
+    Link,
   } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
 interface Props {
+    id: string,
     imageUrl: string,
     title: string,
-    price?: number,
+    price: number,
+    author: string
 }
 
-export function Bookcontent ({ imageUrl, title, price }: Props) {
+export function Bookcontent ({ id, imageUrl, title, price, author }: Props) {
 
     return (
         <Card
@@ -37,8 +40,12 @@ export function Bookcontent ({ imageUrl, title, price }: Props) {
 
             <Stack>
                 <CardBody>
-                <Heading size='md'>{title}</Heading>
-
+                <Link href={`/bookPurchase/${id}`}>
+                    <Heading size='md'>{title}</Heading>
+                </Link>
+                <Text py='3'>
+                    {author}
+                </Text>
                 <Text py='2'>
                     {price}
                 </Text>
@@ -58,7 +65,7 @@ function Bookcontentlist ( props : { datalist: Props[] }) {
     return (
         <Stack dir='row' gap={4}>
             {props.datalist.map((data)=>{
-                return <Bookcontent imageUrl={data.imageUrl} title={data.title} price={data.price} />
+                return <Bookcontent id={data.id} imageUrl={data.imageUrl} title={data.title} price={data.price} author={data.author} />
             })}
         </Stack>
     )

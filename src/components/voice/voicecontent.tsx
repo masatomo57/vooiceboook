@@ -16,6 +16,7 @@ import {
 import { useRouter } from 'next/navigation'
 
 interface Props {
+    id: string,
     imageUrl: string,
     title: string,
     price: number,
@@ -23,7 +24,7 @@ interface Props {
     userId: string
 }
 
-export function Voicecontent ({ imageUrl, title, price, userName, userId }: Props) {
+export function Voicecontent ({ id, imageUrl, title, price, userName, userId }: Props) {
 
     return (
         <Card
@@ -40,7 +41,9 @@ export function Voicecontent ({ imageUrl, title, price, userName, userId }: Prop
 
             <Stack>
                 <CardBody>
-                <Heading size='md'>{title}</Heading>
+                <Link href={`/audioPurchase/${id}`}>
+                    <Heading size='md'>{title}</Heading>
+                </Link>
                 <Link href={`/user/${userId}`}>
                     <Text py='2'>
                         {userName}
@@ -61,7 +64,7 @@ function Voicecontentlist ( props : { datalist: Props[] }) {
     return (
         <Stack dir='row' gap={4}>
             {props.datalist.map((data)=>{
-                return <Voicecontent imageUrl={data.imageUrl} title={data.title} price={data.price} userName={data.userName} userId={data.userId} />
+                return <Voicecontent id={data.id} imageUrl={data.imageUrl} title={data.title} price={data.price} userName={data.userName} userId={data.userId} />
             })}
         </Stack>
     )

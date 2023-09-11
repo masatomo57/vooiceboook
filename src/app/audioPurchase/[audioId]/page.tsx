@@ -6,10 +6,12 @@ import { Voicecontent } from "@/components/voice/voicecontent"
 import PurchaseButton from "@/components/purchaseButton"
 
 interface Bookdata {
+    id: string,
     imageUrl: string,
-    title: string
+    title: string,
+    price: number,
+    author: string
 }
-
 interface Voicedata {
     imageUrl: string
     title: string,
@@ -18,21 +20,14 @@ interface Voicedata {
     userId: string
 }
 
-type Book = {
-    id: string
-    name: string
-    contents: string
-    voiceList: []
-    author: string
-    index: number
-    thumbnailUrl: string
-    ISBNcode: string
-}
 
-const BookPurchase = ({ params }: { params: { audioId : string }}) => {
+const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
     const book: Bookdata = {
+        id: "onepiece1",
         imageUrl: "test",
-        title: "ワンピース第1巻"
+        title: "ワンピース第1巻",
+        price: 500,
+        author: "おだえいいちろう"
     }
     const voice: Voicedata = {
         imageUrl: "test",
@@ -47,13 +42,13 @@ const BookPurchase = ({ params }: { params: { audioId : string }}) => {
 
     return (
         <Stack direction={"column"}>
-            <Bookcontent imageUrl={book.imageUrl} title={book.title} />
+            <Bookcontent id={book.id} imageUrl={book.imageUrl} title={book.title} price={book.price} author={book.author} />
             <Stack direction={"row"}>
                 <Voicecontent imageUrl={voice.imageUrl} title={voice.title} price={voice.price} userName={voice.userName} userId={voice.userId} />
                 <PurchaseButton onClick={onClick} />
             </Stack>
             <Stack direction={"row"}>
-                <PlaySample voiceUrl={voiceUrl}/>
+                <PlaySample voiceUrl={voiceUr}/>
             </Stack>
         </Stack>
     )
