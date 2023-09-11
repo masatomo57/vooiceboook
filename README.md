@@ -7,20 +7,24 @@ root
 └── voices 音声のテーブル
 
 users
-├── id                ユーザーID
-├── name              ユーザー名
-├── email             ユーザーのメールアドレス
-├── money             ユーザーの所持金
-├── bookPurchaseList  ユーザーが購入した書籍リスト
-├── voicePurchaseList ユーザーが購入した音声リスト
-└── workList          ユーザーが投稿した作品リスト
+├── id         ユーザーID
+├── name       ユーザー名
+├── email      ユーザーのメールアドレス
+├── money      ユーザーの所持金
+├── bookList   ユーザーが購入した書籍リスト
+├── voiceList  ユーザーが購入した音声リスト
+├── sampleList ユーザーが投稿した作品サンプルリスト
+└── workList   ユーザーが投稿した作品リスト
  
 books
 ├── id               本のID
 ├── name             本の名
 ├── contents         本のコンテンツ
+├── index            本の巻数        
 ├── voiceList        本に投稿されている音声のリスト
-└── data             本のデータ
+├── ISBNcode         本に投稿されている音声のリスト
+├── thonbnailUrl     サムネイルのURL
+└── author           本のデータ
 
 voices
 ├── id               音声のID
