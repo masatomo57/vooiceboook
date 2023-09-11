@@ -4,6 +4,7 @@ import { Stack } from "@chakra-ui/layout"
 import { Bookcontent } from "@/components/book/bookcontent"
 import { Voicecontent } from "@/components/voice/voicecontent"
 import PurchaseButton from "@/components/purchaseButton"
+import PlayVoice from "@/components/voice/playVoice"
 
 interface Bookdata {
     id: string,
@@ -48,7 +49,7 @@ const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
                 <PurchaseButton onClick={onClick} />
             </Stack>
             <Stack direction={"row"}>
-                <PlaySample voiceUrl={voiceUr}/>
+                <PlayVoice voiceUrl={voiceUrl}/>
             </Stack>
         </Stack>
     )

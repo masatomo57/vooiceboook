@@ -49,7 +49,7 @@ const AudioPurchase = ({ params }: { params: { bookId : string }}) => {
 
     return (
         <Stack direction={"column"}>
-            <Bookcontent id={book.id} imageUrl={book.imageUrl} title={book.title} price={book.price} author={book.author} />
+            <Bookcontent id={book.id} thumbnailUrl={book.thumbnailUrl} title={book.title} price={book.price} author={book.author} />
             <Stack direction={"row"}>
                 <PurchaseButton onClick={onClick} />
                 <Voicecontentlist datalist={book.voiceList}/>
