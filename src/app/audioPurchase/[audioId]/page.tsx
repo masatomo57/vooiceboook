@@ -5,7 +5,7 @@ import { Bookcontent } from "@/components/book/bookcontent"
 import { Voicecontent } from "@/components/voice/voicecontent"
 import PurchaseButton from "@/components/purchaseButton"
 import { Bookdata } from "@/lib/type"
-
+import PlayVoice from "@/components/voice/playVoice"
 
 const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
     const book: Bookdata = {
@@ -34,7 +34,7 @@ const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
                 <PurchaseButton onClick={onClick} />
             </Stack>
             <Stack direction={"row"}>
-                <PlaySample voiceUrl={voiceUr}/>
+                <PlayVoice voiceUrl={voiceUrl}/>
             </Stack>
         </Stack>
     )
