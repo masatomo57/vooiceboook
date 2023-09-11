@@ -21,7 +21,7 @@ interface Props {
     userId: string
 }
 
-function Voicecontent ({ imageUrl, title, price, userId }: Props) {
+export function Voicecontent ({ imageUrl, title, price, userId }: Props) {
     const router = useRouter()
     const onClick = () => {
         console.log('購入ボタンが押されました')
@@ -61,11 +61,13 @@ function Voicecontent ({ imageUrl, title, price, userId }: Props) {
 
 
 
-function Voicecontentlist ( datalist : Props[]) {
+function Voicecontentlist ( props : { datalist: Props[] }) {
     return (
-        (datalist.map((data)=>{
-            <Voicecontent imageUrl={data.imageUrl} title={data.title} price={data.price} userId={data.userId} />
-        }))
+        <Stack dir='row' gap={4}>
+            {props.datalist.map((data)=>{
+                return <Voicecontent imageUrl={data.imageUrl} title={data.title} price={data.price} userId={data.userId} />
+            })}
+        </Stack>
     )
 }
 

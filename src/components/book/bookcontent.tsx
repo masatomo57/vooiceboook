@@ -60,11 +60,13 @@ function Bookcontent ({ imageUrl, title, price }: Props) {
 
 
 
-function Bookcontentlist ( datalist : Props[]) {
+function Bookcontentlist ( props : { datalist: Props[] }) {
     return (
-        (datalist.map((data)=>{
-            <Bookcontent imageUrl={data.imageUrl} title={data.title} price={data.price} />
-        }))
+        <Stack dir='row' gap={4}>
+            {props.datalist.map((data)=>{
+                return <Bookcontent imageUrl={data.imageUrl} title={data.title} price={data.price} />
+            })}
+        </Stack>
     )
 }
 
