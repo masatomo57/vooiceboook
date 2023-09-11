@@ -33,8 +33,7 @@ voices
 ├── price        音声の値段
 ├── userId       投稿者のID
 ├── bookId       どの書籍に音声が投稿されているのか
-├── url          投稿先URL
-└── contents     音声のコンテンツ
+└── url          投稿先URL
 ```
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
