@@ -4,36 +4,34 @@ import { Field, Form, Formik } from 'formik';
 import { signin } from '@/auth/auth'
 import { useRouter } from 'next/navigation';
 
-function UploadForm() {
+function UploadForm({userId, file}: {userId: string, file: File}) {
     const router = useRouter();
-    const submitHandler = async(email: string, password: string) => {
-      const user = await signin(email, password)
-      console.log("succeeded to signin!!!!!")
-      router.push('/bookList')
+    const submitHandler = async(title: string, price: number) => {
+      // const user = await signin(email, password)
+      
+      router.push(`/user/${userId}`)
     }
   
     return (
       <Formik
-      initialValues={{ email: '', password:'' }}
-        onSubmit={(values, actions) => submitHandler(values.email, values.password)}
+      initialValues={{ title: 'title', price: 500, }}
+        onSubmit={(values, actions) => submitHandler(values.title, values.price)}
       >
         {(props) => (
           <Form>
             <Field name='email'>
               {({ field, form }:any) => (
                 <FormControl isInvalid={form.errors.name && form.touched.name}>
-                  <FormLabel>mail_addres</FormLabel>
-                  <Input {...field} placeholder='email' />
-                  <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                  <FormLabel>title</FormLabel>
+                  <Input {...field} placeholder='title' />
                 </FormControl>
               )}
             </Field>
             <Field name='password'>
               {({ field, form }:any) => (
                 <FormControl isInvalid={form.errors.name && form.touched.name}>
-                  <FormLabel>password</FormLabel>
-                  <Input {...field} placeholder='password' />
-                  <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                  <FormLabel>price</FormLabel>
+                  <Input {...field} placeholder='0' />
                 </FormControl>
               )}
             </Field>

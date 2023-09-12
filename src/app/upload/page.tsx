@@ -1,12 +1,14 @@
 "use client"
 import { useState } from 'react'
-import { Center, Button, CircularProgress } from "@chakra-ui/react"
-import { Stack } from "@chakra-ui/layout"
+import { Center, Button, CircularProgress, FormControl, FormLabel, Input } from "@chakra-ui/react"
+import { Box, Container, Stack } from "@chakra-ui/layout"
 import MyHeader from "@/components/myHeader"
 import { SingleFileDropZone } from '@/components/SingleFileDropZone'
 import voiceRepository from '@/repositories/audioRepository'
 import userRepository from '@/repositories/userRepository'
 import bookRepository from '@/repositories/bookRepository'
+import { Field, Form, Formik } from 'formik'
+import { useRouter } from 'next/navigation'
 
 type UploadPageProps = {
     isSampleVoice : boolean
@@ -20,12 +22,13 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
      */
     const [file, setFile] = useState<File>()
     const [nowUpload, setNowUpload] = useState<boolean>(false)
+    const router = useRouter()
 
     const onDrop = (uploadFile: File) => {
         setFile(uploadFile)
     }
 
-    const onUploadHandler = async() => {
+    const onUploadHandler = async(title: string, price: number) => {
         if (!file) {
             alert("ファイルを選択してください")
             return
@@ -35,8 +38,7 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
         const username = "test2"
         const bookId = "2ab0d86d-993d-4f46-94a7-e404ad606485"
         const thumbnailUrl = ""
-        const price = 500
-        const voiceName = "sample1"
+        const voiceName = title
 
         setNowUpload(true)
         const voice = await voiceRepository.uploadThenRegist(
@@ -80,28 +82,53 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
 
         setFile(undefined)
         setNowUpload(false)
+        router.push(`/user/${userId}`)
     }
 
     return (
-        <Stack direction={"column"}>
+            <Stack direction={"column"}>
             <MyHeader />
+            <Container maxW={"8xl"}>
             <SingleFileDropZone uploadFile={file} onDropFile={onDrop} />
-            <Center mt={2}>
-                <Button
-                    width={"10em"}
-                    _hover={{ bg : 'cyan.400'}}
-                    bgColor={nowUpload ? 'gray.200' : '#0265dc'}
-                    textColor={'white'}
-                    onClick={onUploadHandler}
-                    disabled = {nowUpload}
+            <Box mt="5">
+            <Formik
+                initialValues={{ title: 'title', price: 500, }}
+                    onSubmit={(values, actions) => onUploadHandler(values.title, values.price)}
                 >
-                    {nowUpload ? (
-                        <CircularProgress isIndeterminate size={"1.3em"} color='#0265dc'></CircularProgress>
-                    ) : (
-                        <p>アップロード</p>
+                {(props) => (
+                <Form>
+                    <Stack align={"center"}>
+                    <Field name='title'>
+                    {({ field, form }:any) => (
+                        <FormControl isInvalid={form.errors.name && form.touched.name}>
+                        <FormLabel>title</FormLabel>
+                        <Input {...field} placeholder='title' />
+                        </FormControl>
                     )}
-                </Button>
-            </Center>
+                    </Field>
+                    <Field name='price'>
+                    {({ field, form }:any) => (
+                        <FormControl isInvalid={form.errors.name && form.touched.name}>
+                        <FormLabel>price</FormLabel>
+                        <Input {...field} placeholder='0' />
+                        </FormControl>
+                    )}
+                    </Field>
+                    <Button
+                    mt={4}
+                    w={"100%"}
+                    colorScheme='teal'
+                    isLoading={props.isSubmitting}
+                    type='submit'
+                    >
+                    Upload
+                    </Button>
+                    </Stack>
+                </Form>
+                )}
+                </Formik>
+            </ Box>
+            </Container>
         </Stack>
     )
 }

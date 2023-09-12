@@ -39,10 +39,7 @@ export const SingleFileDropZone= ({uploadFile, onDropFile} : Props) => {
                      (<p>ファイルを選択してください</p>) : (<p>{uploadFile.name}</p>)}
                 <Spacer/>
                 <Button
-                    width={"10em"}
-                    _hover={{ bg : 'cyan.400'}}
-                    bgColor={'#0265dc'}
-                    textColor={'white'}
+                    colorScheme='teal'
                 >
                     ファイルを選択する
                 </Button>

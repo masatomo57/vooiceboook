@@ -1,8 +1,9 @@
 // The below import defines which components come from formik
-import { Button, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
+import { Button, Container, FormControl, FormErrorMessage, FormLabel, Input, Stack } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 import { signup } from '@/auth/auth';
 import { useRouter } from 'next/navigation';
+import { Link } from '@chakra-ui/next-js';
 
 function SignupForm() {
   const router = useRouter();
@@ -18,7 +19,8 @@ function SignupForm() {
   }
   
     return (
-      <Formik
+      <Container maxW={"4xl"} >
+        <Formik
         initialValues={{ username:'', email: '', password:'' }}
         onSubmit={(values, actions) => onSubmitHandler(values.username, values.email, values.password)}
       >
@@ -51,18 +53,24 @@ function SignupForm() {
                 </FormControl>
               )}
             </Field>
-
-            <Button
-              mt={4}
-              colorScheme='teal'
-              isLoading={props.isSubmitting}
-              type='submit'
-            >
-              Submit
-            </Button>
+            <Stack dir='column' align={"center"}>
+              <Button
+                mt={4}
+                colorScheme='teal'
+                isLoading={props.isSubmitting}
+                type='submit'
+                w={"100%"}
+              >
+                Signup
+              </Button>
+              <Link href={"/signin"}>
+                登録済みの方はこちら
+              </Link>
+            </Stack>
           </Form>
         )}
       </Formik>
+      </Container>
     )
   }
 
