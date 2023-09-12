@@ -2,6 +2,7 @@ import { app } from "@/lib/firebase";
 import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import bookRepository from "@/repositories/bookRepository"
+import { FirebaseError } from "firebase/app";
 
 type User = {
     id: string
@@ -40,7 +41,25 @@ const userRepository = {
             user.push(doc.data() as User)
         })
         return user[0]
+    },
 
+    async setUser(user:User): Promise<boolean> {
+        try {
+            const firestore = getFirestore(app)
+            const userRef = doc(firestore, `users/${user.id}`);
+            await setDoc(userRef, user)
+            console.log("Succeeded to set user")
+            return true
+        }
+        catch (error) {
+            if (error instanceof FirebaseError) {
+                console.log(`Firebase Error occurred. ${error}`)
+            }
+            else {
+                console.log(`Unknown Error occurred. ${error}`)
+            }
+            return false
+        }
     },
 
     async buyBook(userId:string, bookId:string, price:number): Promise<any> {
