@@ -1,5 +1,4 @@
 import { app } from "@/lib/firebase";
-import { promises } from "dns";
 import { FirebaseError } from "firebase/app";
 import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
@@ -69,15 +68,16 @@ const bookRepository = {
     },
 
 
-    async getVoiceList(bookId:string): Promise<Voice[]> {
+    async getVoiceIds(bookId:string): Promise<string[]> {
         const bookData = await this.getBook(bookId);
         return bookData.voiceList
     },
 
-    async getVoiceData(voiceList: string[]): Promise<Voice[]> {
+    async getVoices(bookId:string): Promise<Voice[]> {
+        const voiceIds = await this.getVoiceIds(bookId)
         const firestore = getFirestore(app);
         const voiceRef = collection(firestore, `voices`);
-        const voiceData = query(voiceRef, where("id", "in", voiceList));
+        const voiceData = query(voiceRef, where("id", "in", voiceIds));
         const snapshot = await getDocs(voiceData);
         const voiceDatas:Voice[] = [];
         snapshot.forEach((doc) => {
