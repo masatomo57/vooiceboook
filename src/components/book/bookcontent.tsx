@@ -1,6 +1,7 @@
 "use client"
 
 import { BookType } from '@/lib/dummy'
+import { Book } from '@/repositories/bookRepository'
 import {
     Stack,
     Heading,
@@ -14,7 +15,7 @@ import {
   } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
-export function Bookcontent ( { book } : { book: BookType} ) {
+export function Bookcontent ( { book } : { book: Book} ) {
     return (
         <Card
             direction={{ base: 'column', sm: 'row' }}
@@ -32,7 +33,7 @@ export function Bookcontent ( { book } : { book: BookType} ) {
             <Stack>
                 <CardBody>
                 <Link href={`/bookPurchase/${book.id}`}>
-                    <Heading size='md'>{book.title}</Heading>
+                    <Heading size='md'>{book.name}</Heading>
                 </Link>
                 <Text py='3'>
                     {book.author}
@@ -46,7 +47,7 @@ export function Bookcontent ( { book } : { book: BookType} ) {
     )
 }
 
-export function BookcontentlistWithViewer ({ bookList } : { bookList: BookType[] }) {
+export function BookcontentlistWithViewer ({ bookList } : { bookList: Book[] }) {
     return (
         <Stack dir='row' gap={4}>
             {bookList.map((book)=>{
@@ -64,11 +65,11 @@ export function BookcontentlistWithViewer ({ bookList } : { bookList: BookType[]
 }
 
 
-function Bookcontentlist ({ bookList } : { bookList: BookType[] }) {
+function Bookcontentlist ({ bookList } : { bookList: Book[] }) {
     return (
         <Stack dir='row' gap={4}>
             {bookList.map((book)=>{
-                return <Bookcontent book={book} />
+                return <Bookcontent book={book} key={book.id} />
             })}
         </Stack>
     )

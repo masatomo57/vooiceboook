@@ -3,7 +3,7 @@ import { FirebaseError } from "firebase/app";
 import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
-type Book = {
+export type Book = {
     id: string
     name: string
     contents: string
@@ -15,7 +15,7 @@ type Book = {
     author: string
 }
 
-type Voice = {
+export type Voice = {
     id: string
     name: string
     userId: string
