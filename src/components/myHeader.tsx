@@ -1,5 +1,6 @@
 "use client"
 
+import { useAuthContext } from "@/auth/authProvider"
 import { Stack, Text } from "@chakra-ui/layout"
 import { Link } from "@chakra-ui/next-js"
 import { Button, IconButton } from "@chakra-ui/react"
@@ -7,7 +8,14 @@ import { useRouter } from 'next/navigation'
 
 const MyHeader = () => {
     const router = useRouter()
-    const userId = "1EQo7MZLjeVlvQO9UvNQfWTDqZj1"
+    const onClickHeaderIcon = () => {
+        const { user } = useAuthContext()
+        if (user === undefined || user === null) {
+            router.push('/signin')
+            return 
+        }
+        router.push(`/user/${user?.uid}`)
+    }
 
     return (
         <Stack justify={"space-between"} direction={"row"} h={"20"} w={"100%"} bg={"blackAlpha.900"} color={"white"} align={"center"}>
@@ -28,7 +36,7 @@ const MyHeader = () => {
                     </Text>
                 </Link>
             </Stack>
-            <Button onClick={() => (router.push(`/user/${userId}`))} mr={"5"} hideBelow={"md"}>
+            <Button onClick={() => {onClickHeaderIcon}} mr={"5"} hideBelow={"md"}>
                 ユーザーページ
             </Button>
         </Stack>

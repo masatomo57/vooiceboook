@@ -1,5 +1,6 @@
 "use client"
 
+import { AuthGuard } from "@/auth/AuthGuard"
 import { Button } from "@chakra-ui/react"
 import { useRouter } from "next/navigation"
 
@@ -8,7 +9,7 @@ export default function Home() {
   const router = useRouter()
 
   return (
-    <>
+    <AuthGuard>
       <Button onClick={() => (router.push("/signin"))}>
         サインイン
       </Button>
@@ -21,6 +22,6 @@ export default function Home() {
       <Button onClick={() => (router.push("/audioList"))}>
         音声リスト
       </Button>
-    </>
+    </AuthGuard>
   )
 }
