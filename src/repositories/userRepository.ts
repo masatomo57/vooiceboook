@@ -8,7 +8,7 @@ type User = {
     id: string
     name: string
     money: number
-    bookList: string[]
+    bookList: {[bookId : string] : Array<string>}
     voiceList: string[]
     workList: string[]
     sampleList: string[]
@@ -23,7 +23,7 @@ const userRepository = {
             id:userId,
             name:'田中太郎',
             money: 1000,
-            bookList: [],
+            bookList: {},
             voiceList: [],
             workList: [],
             sampleList: [],
@@ -72,8 +72,14 @@ const userRepository = {
             return false
 
         } else {
-            const userBookList = user.bookList
-            userBookList.push(bookId)
+            if (user.bookList === undefined) {
+                console.log("BookListがundefinedです")
+                throw Error("BookList is undefined")
+            }
+            const userBookList = {
+                ...user.bookList,
+                [bookId] : []
+            }
             const userMoney = user.money - price
             await setDoc(userRef, {
                 ...user,
@@ -83,7 +89,7 @@ const userRepository = {
             return true}
     },
 
-    async buyVoice(userId:string, voiceId:string, price:number): Promise<any> {
+    async buyVoice(userId:string, bookId:string, voiceId:string, price:number): Promise<any> {
         const firestore = getFirestore(app);
         const userRef = doc(firestore, `users/${userId}`)
         const user = await userRepository.getUser(userId)
@@ -91,17 +97,29 @@ const userRepository = {
         if (user.money < price) {
             console.log("money is not enough")
             return false
+        }
 
-        } else {
-            const userVoiceList = user.voiceList
-            userVoiceList.push(voiceId)
-            const userMoney = user.money - price
-            await setDoc(userRef, {
-                ...user,
-                voiceList: userVoiceList,
-                money: userMoney,
-            });
-            return true}
+        const userVoiceList = user.voiceList
+        userVoiceList.push(voiceId)
+
+        const userVoicesinBooks = user.bookList[bookId]
+        if (userVoicesinBooks === undefined) {
+            throw Error("本を購入してください")
+        }
+        userVoicesinBooks.push(voiceId)
+        const userBookList = {
+            ...user.bookList,
+            [bookId] : userVoicesinBooks
+        }
+
+        const userMoney = user.money - price
+        await setDoc(userRef, {
+            ...user,
+            bookList : userBookList,
+            voiceList: userVoiceList,
+            money: userMoney,
+        });
+        return true
     },
 
 }
