@@ -1,12 +1,15 @@
 "use client"
-import { useState } from 'react'
-import { Center, Button, CircularProgress } from "@chakra-ui/react"
-import { Stack } from "@chakra-ui/layout"
+import { useState, useEffect } from 'react'
+import { Center, Button, CircularProgress, FormControl, FormLabel, Input } from "@chakra-ui/react"
+import { Box, Container, Heading, Stack } from "@chakra-ui/layout"
 import MyHeader from "@/components/myHeader"
 import { SingleFileDropZone } from '@/components/SingleFileDropZone'
 import voiceRepository from '@/repositories/audioRepository'
-import userRepository from '@/repositories/userRepository'
-import bookRepository from '@/repositories/bookRepository'
+import userRepository, { User } from '@/repositories/userRepository'
+import bookRepository, { Book } from '@/repositories/bookRepository'
+import { Field, Form, Formik } from 'formik'
+import { useRouter } from 'next/navigation'
+import Select from 'react-select'
 
 type UploadPageProps = {
     isSampleVoice : boolean
@@ -20,23 +23,49 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
      */
     const [file, setFile] = useState<File>()
     const [nowUpload, setNowUpload] = useState<boolean>(false)
+    const router = useRouter()
+    const [selectBook, setSelectBook] = useState("")
+    const [user, setUser] = useState<User>()
+    const [books, setBooks] = useState<Book[]>()
+    const [options, setOptions] = useState([{"value": "", "label": ""}])
+
+    const userId = "VU6f3bKr2EeHvfvfExIp6V90ojR2"
+
+    useEffect(() => {
+        async function fetchData () {
+            const _user = await userRepository.getUser(userId)
+            const _books  = Object.keys(_user.bookList).length ? await bookRepository.searchBooks(Object.keys(_user.bookList)) : []
+
+            setUser(_user)
+            setBooks(_books)
+            
+            const _options = _books.map((obj) => {return {value: obj.id, label: obj.name}})
+            setOptions(_options)
+        }
+        fetchData()
+    }, [])
 
     const onDrop = (uploadFile: File) => {
         setFile(uploadFile)
     }
 
-    const onUploadHandler = async() => {
+    const onUploadHandler = async(title: string, price: number) => {
+        if (user === undefined) {
+            return console.log("No user")
+        }
+
         if (!file) {
             alert("ファイルを選択してください")
             return
+        } else if (selectBook == "") {
+            alert("書籍を選択してください")
+            return
         }
 
-        const userId = "1EQo7MZLjeVlvQO9UvNQfWTDqZj1"
         const username = "test2"
-        const bookId = "2ab0d86d-993d-4f46-94a7-e404ad606485"
+        const bookId = selectBook
         const thumbnailUrl = ""
-        const price = 500
-        const voiceName = "sample1"
+        const voiceName = title
 
         setNowUpload(true)
         const voice = await voiceRepository.uploadThenRegist(
@@ -48,8 +77,7 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
             thumbnailUrl,
             voiceName
         )
-        
-        const user = await userRepository.getUser(userId)
+    
         if (isSampleVoice) {
             const sampleList = user.sampleList;
             sampleList.push(voice.id)
@@ -80,28 +108,68 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
 
         setFile(undefined)
         setNowUpload(false)
+        router.push(`/user/${userId}`)
+    }
+
+    const handleChange = (e: any) => {
+        e.defaultPrevented
+        setSelectBook(e.value)
     }
 
     return (
-        <Stack direction={"column"}>
+            <Stack direction={"column"}>
             <MyHeader />
+            <Container maxW={"8xl"}>
             <SingleFileDropZone uploadFile={file} onDropFile={onDrop} />
-            <Center mt={2}>
-                <Button
-                    width={"10em"}
-                    _hover={{ bg : 'cyan.400'}}
-                    bgColor={nowUpload ? 'gray.200' : '#0265dc'}
-                    textColor={'white'}
-                    onClick={onUploadHandler}
-                    disabled = {nowUpload}
+            <Box mt={"5"}>
+                <Heading size={"sm"} mb={"2"} fontWeight={"normal"}>
+                    書籍のタイトル
+                </Heading>
+                <Select
+                    id='title'
+                    options={options}
+                    onChange={handleChange}
+                />
+            </Box>
+            <Box mt="5">
+            <Formik
+                initialValues={{ title: 'title', price: 500, }}
+                    onSubmit={(values, actions) => onUploadHandler(values.title, values.price)}
                 >
-                    {nowUpload ? (
-                        <CircularProgress isIndeterminate size={"1.3em"} color='#0265dc'></CircularProgress>
-                    ) : (
-                        <p>アップロード</p>
+                {(props) => (
+                <Form>
+                    <Stack align={"center"}>
+                    <Field name='title'>
+                    {({ field, form }:any) => (
+                        <FormControl isInvalid={form.errors.name && form.touched.name}>
+                        <FormLabel>ボイスのタイトル</FormLabel>
+                        <Input {...field} placeholder='title' />
+                        </FormControl>
                     )}
-                </Button>
-            </Center>
+                    </Field>
+                    <Field name='price'>
+                    {({ field, form }:any) => (
+                        <FormControl isInvalid={form.errors.name && form.touched.name}>
+                        <FormLabel>値段</FormLabel>
+                        <Input {...field} placeholder='0' />
+                        </FormControl>
+                    )}
+                    </Field>
+                    <Button
+                    mt={4}
+                    w={"100%"}
+                    colorScheme='teal'
+                    isLoading={props.isSubmitting}
+                    type='submit'
+                    >
+                    Upload
+                    </Button>
+                    </Stack>
+                </Form>
+                )}
+                </Formik>
+            </ Box>
+            </Container>
         </Stack>
     )
 }

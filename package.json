@@ -28,6 +28,7 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-router-dom": "^6.15.0",
+    "react-select": "^5.7.4",
     "typescript": "5.2.2",
     "use-sound": "^4.0.1",
     "uuid": "^9.0.0"
