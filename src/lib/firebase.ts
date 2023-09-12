@@ -16,8 +16,6 @@ const firebaseConfig = {
     messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
     appId: FIREBASE_APP_ID,
 }
-
-console.log(firebaseConfig)
    
 export const app = initializeApp(firebaseConfig)
 export const initializeFirebaseApp = () =>
