@@ -4,12 +4,14 @@ import { addDoc, collection, doc, getDoc, getDocs, getFirestore, setDoc } from "
 import { getDownloadURL, getStorage , ref, uploadBytes } from "firebase/storage"
 import { v4 as uuidv4 } from "uuid";
 
-type Voice = {
+export type Voice = {
     id: string
+    username : string
     name: string
     userId: string
     bookId: string
     url: string
+    thumbnailUrl: string
     price: number
 }
 
@@ -18,9 +20,11 @@ const voiceRepository = {
         const voiceId = uuidv4();
         const dummyData = {
             id:voiceId,
+            username : '小野賢章',
             name:'釘崎ボイス',
             userId:userId,
             bookId:'2ab0d86d-993d-4f46-94a7-e404ad606485',
+            thumbnailUrl : "",
             url:'',
             price:300
         }
@@ -84,15 +88,17 @@ const voiceRepository = {
         }
     },
 
-    async uploadThenRegist(file: File, userId:string, bookId:string, price:number, voiceName: string): Promise<Voice> {
+    async uploadThenRegist(file: File, userId:string, username:string, bookId:string, price:number, thumbnailUrl:string, voiceName: string): Promise<Voice> {
         try {
             const url = await this.upload(file)
             const voiceId = uuidv4()
             const voice: Voice = {
                 id: voiceId,
                 name: voiceName,
+                username: username,
                 userId: userId,
                 bookId: bookId,
+                thumbnailUrl: thumbnailUrl,
                 url: url,
                 price: price
             }

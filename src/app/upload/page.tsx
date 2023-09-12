@@ -32,7 +32,9 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
         }
 
         const userId = "1EQo7MZLjeVlvQO9UvNQfWTDqZj1"
+        const username = "test2"
         const bookId = "2ab0d86d-993d-4f46-94a7-e404ad606485"
+        const thumbnailUrl = ""
         const price = 500
         const voiceName = "sample1"
 
@@ -40,8 +42,10 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
         const voice = await voiceRepository.uploadThenRegist(
             file, 
             userId, 
+            username,
             bookId, 
             price, 
+            thumbnailUrl,
             voiceName
         )
         

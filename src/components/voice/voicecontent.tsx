@@ -1,6 +1,6 @@
 "use client"
 
-import { VoiceType } from '@/lib/dummy'
+import { Voice } from '@/repositories/audioRepository'
 import {
     Container,
     Box,
@@ -15,7 +15,7 @@ import {
     Link,
   } from '@chakra-ui/react'
 
-export function Voicecontent ( { voice } : { voice : VoiceType} ) {
+export function Voicecontent ( { voice } : { voice : Voice } ) {
 
     return (
         <Card
@@ -38,7 +38,7 @@ export function Voicecontent ( { voice } : { voice : VoiceType} ) {
                 </Link>
                 <Link href={`/user/${voice.userId}`}>
                     <Text py='2'>
-                        {voice.userName}
+                        {voice.username}
                     </Text>
                 </Link>
                 <Text py='2'>
@@ -50,7 +50,7 @@ export function Voicecontent ( { voice } : { voice : VoiceType} ) {
     )
 }
 
-export function VoicecontentlistWithViewer ({ voiceList } : { voiceList: VoiceType[] }) {
+export function VoicecontentlistWithViewer ({ voiceList } : { voiceList: Voice[] }) {
     return (
         <Stack dir='row' gap={4}>
             {voiceList.map((voice)=>{
@@ -67,11 +67,11 @@ export function VoicecontentlistWithViewer ({ voiceList } : { voiceList: VoiceTy
     )
 }
 
-function Voicecontentlist ( { voiceList } : { voiceList : VoiceType[]} ) {
+function Voicecontentlist ( { voiceList } : { voiceList : Voice[]} ) {
     return (
         <Stack dir='row' gap={4}>
             {voiceList.map((voice)=>{
-                return <Voicecontent voice={voice} />
+                return <Voicecontent voice={voice} key={voice.id} />
             })}
         </Stack>
     )

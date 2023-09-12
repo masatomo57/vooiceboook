@@ -1,11 +1,20 @@
+"use client"
 import MyHeader from "@/components/myHeader"
 import Voicecontentlist from "@/components/voice/voicecontent"
-import { voiceDummy } from "@/lib/dummy"
+import voiceRepository, { Voice } from "@/repositories/audioRepository"
 import { Container, Heading, Stack } from "@chakra-ui/layout"
+import { useEffect, useState } from "react"
 
 const Page = () => {
-    /* 音声作品全てのリストをとってくる操作（並びをランダムとかにした方がいい？） */
-    const voice = voiceDummy
+    const [voices, setVoices] = useState<Voice[]>([]);
+
+    useEffect(() =>{
+        async function fetchData() {
+            const _voices = await voiceRepository.getVoices();
+            setVoices(_voices)
+        }
+        fetchData()
+    }, [])
 
     return (
         <Stack direction={"column"}>
@@ -14,7 +23,7 @@ const Page = () => {
                 <Heading>
                     音声一覧
                 </Heading>
-                <Voicecontentlist voiceList={voice} />
+                <Voicecontentlist voiceList={voices} />
             </Container>
         </Stack>
     )
