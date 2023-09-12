@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import bookRepository from "@/repositories/bookRepository"
 import { FirebaseError } from "firebase/app";
 
-type User = {
+export type User = {
     id: string
     name: string
     money: number
@@ -33,17 +33,14 @@ const userRepository = {
 
     async getUser(userid:string): Promise<User> {
         const firestore = getFirestore(app);
-        const userRef = collection(firestore, `users`);
-        const userQuery = query(userRef, where("id", "==", userid))
-        const snapshot = await getDocs(userQuery);
-        if (snapshot.size === 0 ) {
+        const usersRef = collection(firestore, `users`);
+        const userRef = doc(usersRef, userid)
+        const snapshot = await getDoc(userRef);
+        if (snapshot.data() === undefined) {
             throw Error("user not found")
         }
-        const user:User[] = [];
-        snapshot.forEach((doc) => {
-            user.push(doc.data() as User)
-        })
-        return user[0]
+        const user = snapshot.data() as User
+        return user
     },
 
     async setUser(user:User): Promise<boolean> {
