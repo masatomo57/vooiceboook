@@ -1,11 +1,12 @@
 "use client"
 import { useState } from 'react'
-import { Center, Button, CircularProgress, CircularProgressLabel } from "@chakra-ui/react"
+import { Center, Button, CircularProgress } from "@chakra-ui/react"
 import { Stack } from "@chakra-ui/layout"
 import MyHeader from "@/components/myHeader"
 import { SingleFileDropZone } from '@/components/SingleFileDropZone'
 import voiceRepository from '@/repositories/audioRepository'
 import userRepository from '@/repositories/userRepository'
+import bookRepository from '@/repositories/bookRepository'
 
 type UploadPageProps = {
     isSampleVoice : boolean
@@ -31,16 +32,48 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
         const voiceName = "sample1"
 
         setNowUpload(true)
-        const result = await voiceRepository.uploadThenRegist(
+        const voice = await voiceRepository.uploadThenRegist(
             file, 
             userId, 
             bookId, 
-            500, 
+            price, 
             voiceName
         )
+        /**
+         * TODO
+         * - setUser関数の作成
+         * - bookテーブルのvoiceList配列の要素に型を与える
+         */
 
         //Userテーブルに作品を追加
-        const user = userRepository.getUser(userId)
+        const user = await userRepository.getUser(userId)
+        if (isSampleVoice) {
+            const sampleList = user.sampleList;
+            sampleList.push(voice.id)
+            const UpdatedUser = {
+                ...user,
+                sampleList : sampleList
+            }
+            await userRepository.setUser(UpdatedUser)
+        }
+        else {
+            const workList = user.workList;
+            workList.push(voice.id)
+            const updatedUser = {
+                ...user,
+                workList : workList
+            }
+            await userRepository.setUser(updatedUser)
+
+            const book = await bookRepository.getBook(bookId)
+            const voiceList = book.voiceList;
+            voiceList.push(voice.id)
+            const updatedBook = {
+                ...book,
+                voiceList : voiceList
+            }
+            await bookRepository.setBook(updatedBook)
+        }
 
         //booksデーブルに追加 TODOサンプルは追加しなくていいのか？
 
