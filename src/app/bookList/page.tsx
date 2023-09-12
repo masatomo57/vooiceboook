@@ -4,7 +4,9 @@ import { Container, Heading, Stack } from "@chakra-ui/layout"
 import { bookDummy } from "@/lib/dummy"
 
 const Page = () => {
+    /* 書籍のリストを全てとってくる操作 */
     const books = bookDummy
+    
     return (
         <Stack direction={"column"}>
             <MyHeader />

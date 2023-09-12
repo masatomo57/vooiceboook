@@ -9,10 +9,12 @@ import { bookDummy } from "@/lib/dummy"
 import MyHeader from "@/components/myHeader"
 
 const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
+    /* params.audioIdに対し音声作品をとってくる操作 */
     const book = bookDummy[0]
     const voice = book.voiceList[0]
 
     const onClick = () => {
+        /* 音声を購入する操作に書き換える。*/
         alert("音声が購入されました。")
     }
 
@@ -30,6 +32,7 @@ const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
                     </Heading>
                     <Stack direction={"row"} align={"center"}>
                         <Voicecontent voice={voice} />
+                        /* すでに音声を購入していればボタンを押せないorビューワーページに飛ばすボタンにする */
                         <PurchaseButton onClick={onClick} />
                     </Stack>
                 </Box>
