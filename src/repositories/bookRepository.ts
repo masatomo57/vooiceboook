@@ -59,6 +59,19 @@ const bookRepository = {
         return book
     },
 
+    async searchBooks(bookIds: string[]): Promise<Book[]> {
+        const firestore = getFirestore(app);
+        const voiceRef = collection(firestore, `books`);
+        const voiceData = query(voiceRef, where("id", "in", bookIds));
+        const snapshot = await getDocs(voiceData);
+        const books:Book[] = [];
+        snapshot.forEach((doc) => {
+            books.push(doc.data() as Book)
+        })
+
+        return books
+    },
+
 
     async getVoiceIds(bookId:string): Promise<string[]> {
         const bookData = await this.getBook(bookId);

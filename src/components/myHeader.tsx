@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 
 const MyHeader = () => {
     const router = useRouter()
-    const userId = "test"
+    const userId = "1EQo7MZLjeVlvQO9UvNQfWTDqZj1"
 
     return (
         <Stack justify={"space-between"} direction={"row"} h={"20"} w={"100%"} bg={"blackAlpha.900"} color={"white"} align={"center"}>

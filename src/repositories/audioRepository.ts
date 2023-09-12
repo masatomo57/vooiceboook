@@ -1,6 +1,6 @@
 import { app } from "@/lib/firebase";
 import { FirebaseError } from "firebase/app";
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { getDownloadURL, getStorage , ref, uploadBytes } from "firebase/storage"
 import { v4 as uuidv4 } from "uuid";
 
@@ -55,6 +55,19 @@ const voiceRepository = {
         const voice = snapshot.data() as Voice
 
         return voice
+    },
+
+    async searchVoices(voiceIds: string[]): Promise<Voice[]> {
+        const firestore = getFirestore(app);
+        const voiceRef = collection(firestore, `voices`);
+        const voiceData = query(voiceRef, where("id", "in", voiceIds));
+        const snapshot = await getDocs(voiceData);
+        const voiceDatas:Voice[] = [];
+        snapshot.forEach((doc) => {
+            voiceDatas.push(doc.data() as Voice)
+        })
+
+        return voiceDatas
     },
 
     async upload(file: File): Promise<string> {
