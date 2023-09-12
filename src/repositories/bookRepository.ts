@@ -1,5 +1,6 @@
 import { app } from "@/lib/firebase";
 import { promises } from "dns";
+import { FirebaseError } from "firebase/app";
 import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
@@ -9,7 +10,7 @@ type Book = {
     contents: string
     price: number
     index: number
-    voiceList: []
+    voiceList: string[]
     ISBNcode: string
     thumbnailUrl: string
     author: string
@@ -67,6 +68,7 @@ const bookRepository = {
         return book
     },
 
+
     async getVoiceList(bookId:string): Promise<Voice[]> {
         const bookData = await this.getBook(bookId);
         return bookData.voiceList
@@ -83,6 +85,25 @@ const bookRepository = {
         })
 
         return voiceDatas
+    },
+
+    async setBook(book: Book): Promise<boolean> {
+        try {
+            const firestore = getFirestore(app)
+            const bookRef = doc(firestore, `books/${book.id}`);
+            await setDoc(bookRef, book)
+            console.log("Succeeded to set book")
+            return true
+        }
+        catch (error) {
+            if (error instanceof FirebaseError) {
+                console.log(`Firebase Error occurred. ${error}`)
+            }
+            else {
+                console.log(`Unknown Error occurred. ${error}`)
+            }
+            return false
+        }
 
     }
 
