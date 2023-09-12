@@ -1,4 +1,5 @@
 import { app } from "@/lib/firebase";
+import { promises } from "dns";
 import { FirebaseError } from "firebase/app";
 import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
@@ -13,6 +14,15 @@ type Book = {
     ISBNcode: string
     thumbnailUrl: string
     author: string
+}
+
+type Voice = {
+    id: string
+    name: string
+    userId: string
+    bookId: string
+    url: string
+    price: number
 }
 
 const bookRepository = {
@@ -43,9 +53,7 @@ const bookRepository = {
         snapshot.forEach((doc) => {
             books.push(doc.data() as Book)
         })
-        
         return books
-
     },
 
     async getBook(bookid:string): Promise<Book> {
@@ -58,6 +66,25 @@ const bookRepository = {
         }
         const book = snapshot.data() as Book
         return book
+    },
+
+
+    async getVoiceList(bookId:string): Promise<Voice[]> {
+        const bookData = await this.getBook(bookId);
+        return bookData.voiceList
+    },
+
+    async getVoiceData(voiceList: string[]): Promise<Voice[]> {
+        const firestore = getFirestore(app);
+        const voiceRef = collection(firestore, `voices`);
+        const voiceData = query(voiceRef, where("id", "in", voiceList));
+        const snapshot = await getDocs(voiceData);
+        const voiceDatas:Voice[] = [];
+        snapshot.forEach((doc) => {
+            voiceDatas.push(doc.data() as Voice)
+        })
+
+        return voiceDatas
     },
 
     async setBook(book: Book): Promise<boolean> {
@@ -77,7 +104,9 @@ const bookRepository = {
             }
             return false
         }
+
     }
+
 }
 
 export default bookRepository
