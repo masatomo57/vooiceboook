@@ -1,8 +1,6 @@
 "use client"
 
-import MyHeader from "@/components/myHeader"
-import PlayVoice from "@/components/voice/playVoice";
-import { bookDummy, testUserId, voiceDummy } from "@/lib/dummy";
+import { testUserId } from "@/lib/dummy";
 import voiceRepository, { Voice } from "@/repositories/audioRepository";
 import userRepository, { User } from "@/repositories/userRepository";
 import { Box, Container, Stack } from "@chakra-ui/layout"
@@ -28,10 +26,13 @@ export default function Page({ params }: { params: { bookId : string }}) {
   }, [])
 
   const handleChange = (e: any) => {
-    setVoice(e.value)
-    setTimeout(() => {
-      alert("ここで音を鳴らす")
-    }, 3000)
+    const voice = e.value as Voice
+    console.log(voice)
+    setVoice(voice)
+    console.log(voice.url)
+    const audio = new Audio(e.value.url)
+    audio.play()
+    alert("ここで音を鳴らす")
   }
 
   return (
