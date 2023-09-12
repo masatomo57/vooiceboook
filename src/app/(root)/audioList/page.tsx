@@ -1,5 +1,5 @@
 "use client"
-import MyHeader from "@/components/myHeader"
+
 import Voicecontentlist from "@/components/voice/voicecontent"
 import voiceRepository, { Voice } from "@/repositories/audioRepository"
 import { Container, Heading, Stack } from "@chakra-ui/layout"
@@ -18,7 +18,6 @@ const Page = () => {
 
     return (
         <Stack direction={"column"}>
-            <MyHeader />
             <Container maxW={"9xl"}>
                 <Heading>
                     音声一覧

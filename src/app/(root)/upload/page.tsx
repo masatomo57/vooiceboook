@@ -10,6 +10,7 @@ import bookRepository, { Book } from '@/repositories/bookRepository'
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/navigation'
 import Select from 'react-select'
+import { testUserId } from '@/lib/dummy'
 
 type UploadPageProps = {
     isSampleVoice : boolean
@@ -29,7 +30,7 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
     const [books, setBooks] = useState<Book[]>()
     const [options, setOptions] = useState([{"value": "", "label": ""}])
 
-    const userId = "VU6f3bKr2EeHvfvfExIp6V90ojR2"
+    const userId = testUserId // (Dummy) testUserId
 
     useEffect(() => {
         async function fetchData () {
@@ -39,7 +40,7 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
             setUser(_user)
             setBooks(_books)
             
-            const _options = _books.map((obj) => {return {value: obj.id, label: obj.name}})
+            const _options = _books.map((obj) => {return {value: obj.id, label: obj.name + " " + obj.index}})
             setOptions(_options)
         }
         fetchData()
@@ -112,13 +113,11 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
     }
 
     const handleChange = (e: any) => {
-        e.defaultPrevented
         setSelectBook(e.value)
     }
 
     return (
             <Stack direction={"column"}>
-            <MyHeader />
             <Container maxW={"8xl"}>
             <SingleFileDropZone uploadFile={file} onDropFile={onDrop} />
             <Box mt={"5"}>
