@@ -1,14 +1,15 @@
 "use client"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Center, Button, CircularProgress, FormControl, FormLabel, Input } from "@chakra-ui/react"
-import { Box, Container, Stack } from "@chakra-ui/layout"
+import { Box, Container, Heading, Stack } from "@chakra-ui/layout"
 import MyHeader from "@/components/myHeader"
 import { SingleFileDropZone } from '@/components/SingleFileDropZone'
 import voiceRepository from '@/repositories/audioRepository'
-import userRepository from '@/repositories/userRepository'
-import bookRepository from '@/repositories/bookRepository'
+import userRepository, { User } from '@/repositories/userRepository'
+import bookRepository, { Book } from '@/repositories/bookRepository'
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/navigation'
+import Select from 'react-select'
 
 type UploadPageProps = {
     isSampleVoice : boolean
@@ -23,20 +24,46 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
     const [file, setFile] = useState<File>()
     const [nowUpload, setNowUpload] = useState<boolean>(false)
     const router = useRouter()
+    const [selectBook, setSelectBook] = useState("")
+    const [user, setUser] = useState<User>()
+    const [books, setBooks] = useState<Book[]>()
+    const [options, setOptions] = useState([{"value": "", "label": ""}])
+
+    const userId = "VU6f3bKr2EeHvfvfExIp6V90ojR2"
+
+    useEffect(() => {
+        async function fetchData () {
+            const _user = await userRepository.getUser(userId)
+            const _books  = Object.keys(_user.bookList).length ? await bookRepository.searchBooks(Object.keys(_user.bookList)) : []
+
+            setUser(_user)
+            setBooks(_books)
+            
+            const _options = _books.map((obj) => {return {value: obj.id, label: obj.name}})
+            setOptions(_options)
+        }
+        fetchData()
+    }, [])
 
     const onDrop = (uploadFile: File) => {
         setFile(uploadFile)
     }
 
     const onUploadHandler = async(title: string, price: number) => {
+        if (user === undefined) {
+            return console.log("No user")
+        }
+
         if (!file) {
             alert("ファイルを選択してください")
             return
+        } else if (selectBook == "") {
+            alert("書籍を選択してください")
+            return
         }
 
-        const userId = "1EQo7MZLjeVlvQO9UvNQfWTDqZj1"
         const username = "test2"
-        const bookId = "2ab0d86d-993d-4f46-94a7-e404ad606485"
+        const bookId = selectBook
         const thumbnailUrl = ""
         const voiceName = title
 
@@ -50,8 +77,7 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
             thumbnailUrl,
             voiceName
         )
-        
-        const user = await userRepository.getUser(userId)
+    
         if (isSampleVoice) {
             const sampleList = user.sampleList;
             sampleList.push(voice.id)
@@ -85,11 +111,26 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
         router.push(`/user/${userId}`)
     }
 
+    const handleChange = (e: any) => {
+        e.defaultPrevented
+        setSelectBook(e.value)
+    }
+
     return (
             <Stack direction={"column"}>
             <MyHeader />
             <Container maxW={"8xl"}>
             <SingleFileDropZone uploadFile={file} onDropFile={onDrop} />
+            <Box mt={"5"}>
+                <Heading size={"sm"} mb={"2"} fontWeight={"normal"}>
+                    書籍のタイトル
+                </Heading>
+                <Select
+                    id='title'
+                    options={options}
+                    onChange={handleChange}
+                />
+            </Box>
             <Box mt="5">
             <Formik
                 initialValues={{ title: 'title', price: 500, }}
@@ -101,7 +142,7 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
                     <Field name='title'>
                     {({ field, form }:any) => (
                         <FormControl isInvalid={form.errors.name && form.touched.name}>
-                        <FormLabel>title</FormLabel>
+                        <FormLabel>ボイスのタイトル</FormLabel>
                         <Input {...field} placeholder='title' />
                         </FormControl>
                     )}
@@ -109,7 +150,7 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
                     <Field name='price'>
                     {({ field, form }:any) => (
                         <FormControl isInvalid={form.errors.name && form.touched.name}>
-                        <FormLabel>price</FormLabel>
+                        <FormLabel>値段</FormLabel>
                         <Input {...field} placeholder='0' />
                         </FormControl>
                     )}
