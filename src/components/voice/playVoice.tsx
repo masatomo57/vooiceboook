@@ -9,7 +9,7 @@ const PlayVoice = ({ voiceUrl }: { voiceUrl: string }) => {
 
     return (
         <>
-            <Button onClick={play}>
+            <Button onClick={play} width={"100%"}>
                 サンプル
             </Button>
         </>

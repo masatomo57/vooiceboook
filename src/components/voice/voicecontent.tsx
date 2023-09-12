@@ -22,6 +22,7 @@ export function Voicecontent ( { voice } : { voice : VoiceType} ) {
             direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
             variant='outline'
+            w={"100%"}
         >
             <Image
                 objectFit='cover'

@@ -19,6 +19,7 @@ export function Bookcontent ( { book } : { book: BookType} ) {
             direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
             variant='outline'
+            w={"100%"}
         >
             <Image
                 objectFit='cover'
@@ -39,10 +40,6 @@ export function Bookcontent ( { book } : { book: BookType} ) {
                     {book.price}
                 </Text>
                 </CardBody>
-
-                <CardFooter>
-                
-                </CardFooter>
             </Stack>
         </Card>
     )

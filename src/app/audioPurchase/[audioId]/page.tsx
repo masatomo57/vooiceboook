@@ -1,6 +1,6 @@
 "use client"
 
-import { Stack } from "@chakra-ui/layout"
+import { Box, Container, Heading, Stack } from "@chakra-ui/layout"
 import { Bookcontent } from "@/components/book/bookcontent"
 import { Voicecontent } from "@/components/voice/voicecontent"
 import PurchaseButton from "@/components/purchaseButton"
@@ -19,14 +19,24 @@ const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
     return (
         <Stack direction={"column"}>
             <MyHeader />
-            <Bookcontent book={book} />
-            <Stack direction={"row"}>
-                <Voicecontent voice={voice}/>
-                <PurchaseButton onClick={onClick} />
-            </Stack>
-            <Stack direction={"row"}>
-                <PlayVoice voiceUrl={voice.url}/>
-            </Stack>
+            <Container maxW={"9xl"}>
+                <Heading >
+                    書籍情報
+                </Heading>
+                <Bookcontent book={book} />
+                <Box mt={"5"}>
+                    <Heading >
+                        音声情報
+                    </Heading>
+                    <Stack direction={"row"} align={"center"}>
+                        <Voicecontent voice={voice} />
+                        <PurchaseButton onClick={onClick} />
+                    </Stack>
+                </Box>
+                <Stack direction={"row"} mt="2">
+                    <PlayVoice voiceUrl={voice.url} />
+                </Stack>
+            </Container>
         </Stack>
     )
 }
