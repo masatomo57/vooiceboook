@@ -48,13 +48,29 @@ export function Bookcontent ( { book } : { book: BookType} ) {
     )
 }
 
-
-
-function Bookcontentlist ( { bookList } : { bookList: BookType[] }) {
+export function BookcontentlistWithViewer ({ bookList } : { bookList: BookType[] }) {
     return (
         <Stack dir='row' gap={4}>
             {bookList.map((book)=>{
-                return <Bookcontent book={book}/>
+                return (
+                    <Stack direction={"row"}>
+                        <Bookcontent book={book}/>
+                        <Link href={`/viewer/${book.id}`}>
+                            <Text>ビューワーへ</Text>
+                        </Link>
+                    </Stack>
+                )
+            })}
+        </Stack>
+    )
+}
+
+
+function Bookcontentlist ({ bookList } : { bookList: BookType[] }) {
+    return (
+        <Stack dir='row' gap={4}>
+            {bookList.map((book)=>{
+                return <Bookcontent book={book} />
             })}
         </Stack>
     )

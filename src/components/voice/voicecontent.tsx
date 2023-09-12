@@ -49,7 +49,22 @@ export function Voicecontent ( { voice } : { voice : VoiceType} ) {
     )
 }
 
-
+export function VoicecontentlistWithViewer ({ voiceList } : { voiceList: VoiceType[] }) {
+    return (
+        <Stack dir='row' gap={4}>
+            {voiceList.map((voice)=>{
+                return (
+                    <Stack direction={"row"}>
+                        <Voicecontent voice={voice}/>
+                        <Link href={`/viewer/${voice.bookId}`}>
+                            <Text>ビューワーへ</Text>
+                        </Link>
+                    </Stack>
+                )
+            })}
+        </Stack>
+    )
+}
 
 function Voicecontentlist ( { voiceList } : { voiceList : VoiceType[]} ) {
     return (
