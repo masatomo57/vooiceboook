@@ -10,6 +10,7 @@ import {
     CardBody,
     CardFooter,
     Link,
+    Button
   } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
@@ -53,7 +54,7 @@ export function BookcontentlistWithViewer ({ bookList } : { bookList: BookType[]
                     <Stack direction={"row"}>
                         <Bookcontent book={book}/>
                         <Link href={`/viewer/${book.id}`}>
-                            <Text>ビューワーへ</Text>
+                            <Button>ビューワーへ</Button>
                         </Link>
                     </Stack>
                 )

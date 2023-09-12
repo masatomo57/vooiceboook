@@ -58,7 +58,7 @@ export function VoicecontentlistWithViewer ({ voiceList } : { voiceList: VoiceTy
                     <Stack direction={"row"}>
                         <Voicecontent voice={voice}/>
                         <Link href={`/viewer/${voice.bookId}`}>
-                            <Text>ビューワーへ</Text>
+                            <Button>ビューワーへ</Button>
                         </Link>
                     </Stack>
                 )
