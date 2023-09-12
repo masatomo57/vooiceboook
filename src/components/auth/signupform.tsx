@@ -1,18 +1,26 @@
 // The below import defines which components come from formik
 import { Button, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
+import { signup } from '@/auth/auth';
+import { useRouter } from 'next/navigation';
 
 function SignupForm() {
+  const router = useRouter();
+  const onSubmitHandler = async(username:string, email:string, password:string) => {
+    try {
+      await signup(username, email, password)
+      console.log("succeeded to signup!!!!!")
+      router.push('/bookList')
+    }
+    catch {
+      alert("サインアップに終了しました")
+    }
+  }
   
     return (
       <Formik
         initialValues={{ username:'', email: '', password:'' }}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2))
-            actions.setSubmitting(false)
-          }, 1000)
-        }}
+        onSubmit={(values, actions) => onSubmitHandler(values.username, values.email, values.password)}
       >
         {(props) => (
           <Form>
