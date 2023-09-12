@@ -1,8 +1,7 @@
 "use client"
 
+import { BookType } from '@/lib/dummy'
 import {
-    Container,
-    Box,
     Stack,
     Heading,
     Text,
@@ -10,66 +9,66 @@ import {
     Image,
     CardBody,
     CardFooter,
-    Button,
     Link,
+    Button
   } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
-type Bookdata = {
-    id: string
-    title: string
-    contents?: string
-    voiceList?: any[]
-    author: string
-    index?: number
-    thumbnailUrl: string
-    ISBNcode?: string
-    price: number
-}
-
-export function Bookcontent ({ id, thumbnailUrl, title, price, author }: Bookdata) {
-
+export function Bookcontent ( { book } : { book: BookType} ) {
     return (
         <Card
             direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
             variant='outline'
+            w={"100%"}
         >
             <Image
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
-                src={thumbnailUrl}
+                src={book.thumbnailUrl}
                 alt='Caffe Latte'
             />
 
             <Stack>
                 <CardBody>
-                <Link href={`/bookPurchase/${id}`}>
-                    <Heading size='md'>{title}</Heading>
+                <Link href={`/bookPurchase/${book.id}`}>
+                    <Heading size='md'>{book.title}</Heading>
                 </Link>
                 <Text py='3'>
-                    {author}
+                    {book.author}
                 </Text>
                 <Text py='2'>
-                    {price}
+                    {book.price}
                 </Text>
                 </CardBody>
-
-                <CardFooter>
-                
-                </CardFooter>
             </Stack>
         </Card>
     )
 }
 
-
-
-function Bookcontentlist ( props : { datalist: Bookdata[] }) {
+export function BookcontentlistWithViewer ({ bookList } : { bookList: BookType[] }) {
     return (
         <Stack dir='row' gap={4}>
-            {props.datalist.map((data)=>{
-                return <Bookcontent id={data.id} thumbnailUrl={data.thumbnailUrl} title={data.title} price={data.price} author={data.author}/>
+            {bookList.map((book)=>{
+                return (
+                    <Stack direction={"row"}>
+                        <Bookcontent book={book}/>
+                        <Link href={`/viewer/${book.id}`}>
+                            <Button>ビューワーへ</Button>
+                        </Link>
+                    </Stack>
+                )
+            })}
+        </Stack>
+    )
+}
+
+
+function Bookcontentlist ({ bookList } : { bookList: BookType[] }) {
+    return (
+        <Stack dir='row' gap={4}>
+            {bookList.map((book)=>{
+                return <Bookcontent book={book} />
             })}
         </Stack>
     )

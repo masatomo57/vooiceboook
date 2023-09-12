@@ -1,55 +1,45 @@
 "use client"
 
-import { Stack } from "@chakra-ui/layout"
+import { Box, Container, Heading, Stack } from "@chakra-ui/layout"
 import { Bookcontent } from "@/components/book/bookcontent"
 import { Voicecontent } from "@/components/voice/voicecontent"
 import PurchaseButton from "@/components/purchaseButton"
-
-interface Bookdata {
-    id: string,
-    imageUrl: string,
-    title: string,
-    price: number,
-    author: string
-}
-interface Voicedata {
-    imageUrl: string
-    title: string,
-    price: number,
-    userName: string,
-    userId: string
-}
-
+import PlayVoice from "@/components/voice/playVoice"
+import { bookDummy } from "@/lib/dummy"
+import MyHeader from "@/components/myHeader"
 
 const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
-    const book: Bookdata = {
-        id: "onepiece1",
-        imageUrl: "test",
-        title: "ワンピース第1巻",
-        price: 500,
-        author: "おだえいいちろう"
-    }
-    const voice: Voicedata = {
-        imageUrl: "test",
-        title: "ルフィボイス1",
-        price: 500,
-        userName: "田中真弓",
-        userId: "test"
-    }
+    /* params.audioIdに対し音声作品をとってくる操作 */
+    const book = bookDummy[0]
+    const voice = book.voiceList[0]
+
     const onClick = () => {
+        /* 音声を購入する操作に書き換える。*/
         alert("音声が購入されました。")
     }
 
     return (
         <Stack direction={"column"}>
-            <Bookcontent id={book.id} imageUrl={book.imageUrl} title={book.title} price={book.price} author={book.author} />
-            <Stack direction={"row"}>
-                <Voicecontent imageUrl={voice.imageUrl} title={voice.title} price={voice.price} userName={voice.userName} userId={voice.userId} />
-                <PurchaseButton onClick={onClick} />
-            </Stack>
-            <Stack direction={"row"}>
-                <PlaySample voiceUrl={voiceUr}/>
-            </Stack>
+            <MyHeader />
+            <Container maxW={"9xl"}>
+                <Heading >
+                    書籍情報
+                </Heading>
+                <Bookcontent book={book} />
+                <Box mt={"5"}>
+                    <Heading >
+                        音声情報
+                    </Heading>
+                    <Stack direction={"row"} align={"center"}>
+                        <Voicecontent voice={voice} />
+                        /* すでに音声を購入していればボタンを押せないorビューワーページに飛ばすボタンにする */
+                        <PurchaseButton onClick={onClick} />
+                    </Stack>
+                </Box>
+                <Stack direction={"row"} mt="2">
+                    <PlayVoice voiceUrl={voice.url} />
+                </Stack>
+            </Container>
         </Stack>
     )
 }

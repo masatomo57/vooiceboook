@@ -1,10 +1,20 @@
-const AudioListEveryBookContents = ({ params }: { params: { bookId : string }}) => {
+import MyHeader from "@/components/myHeader"
+import Voicecontentlist from "@/components/voice/voicecontent"
+import { bookDummy } from "@/lib/dummy"
+import { Stack } from "@chakra-ui/layout"
+
+
+const Page = ({ params }: { params: { bookId : string }}) => {
+    /* params.bookIdをもつ音声作品のリストをとってくる操作 */
+    const book = bookDummy[0]
+    const voiceList = book.voiceList
+
     return (
-        <div>
-            <h1>書籍別の音声一覧ページ</h1>
-            <p>書籍ID : { params.bookId }</p>
-        </div>
+        <Stack direction={"column"}>
+            <MyHeader />
+            <Voicecontentlist voiceList={voiceList} />
+        </Stack>
     )
 }
 
-export default AudioListEveryBookContents
+export default Page

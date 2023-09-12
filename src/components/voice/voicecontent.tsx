@@ -1,5 +1,6 @@
 "use client"
 
+import { VoiceType } from '@/lib/dummy'
 import {
     Container,
     Box,
@@ -13,44 +14,35 @@ import {
     Button,
     Link,
   } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
 
-interface Props {
-    id: string,
-    imageUrl: string,
-    title: string,
-    price: number,
-    userName: string,
-    userId: string
-}
-
-export function Voicecontent ({ id, imageUrl, title, price, userName, userId }: Props) {
+export function Voicecontent ( { voice } : { voice : VoiceType} ) {
 
     return (
         <Card
             direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
             variant='outline'
+            w={"100%"}
         >
             <Image
                 objectFit='cover'
                 maxW={{ base: '100%', sm: '200px' }}
-                src={imageUrl}
+                src={voice.thumbnailUrl}
                 alt='Caffe Latte'
             />
 
             <Stack>
                 <CardBody>
-                <Link href={`/audioPurchase/${id}`}>
-                    <Heading size='md'>{title}</Heading>
+                <Link href={`/audioPurchase/${voice.id}`}>
+                    <Heading size='md'>{voice.name}</Heading>
                 </Link>
-                <Link href={`/user/${userId}`}>
+                <Link href={`/user/${voice.userId}`}>
                     <Text py='2'>
-                        {userName}
+                        {voice.userName}
                     </Text>
                 </Link>
                 <Text py='2'>
-                    {price}
+                    {voice.price}
                 </Text>
                 </CardBody>
             </Stack>
@@ -58,13 +50,28 @@ export function Voicecontent ({ id, imageUrl, title, price, userName, userId }: 
     )
 }
 
-
-
-function Voicecontentlist ( props : { datalist: Props[] }) {
+export function VoicecontentlistWithViewer ({ voiceList } : { voiceList: VoiceType[] }) {
     return (
         <Stack dir='row' gap={4}>
-            {props.datalist.map((data)=>{
-                return <Voicecontent id={data.id} imageUrl={data.imageUrl} title={data.title} price={data.price} userName={data.userName} userId={data.userId} />
+            {voiceList.map((voice)=>{
+                return (
+                    <Stack direction={"row"}>
+                        <Voicecontent voice={voice}/>
+                        <Link href={`/viewer/${voice.bookId}`}>
+                            <Button>ビューワーへ</Button>
+                        </Link>
+                    </Stack>
+                )
+            })}
+        </Stack>
+    )
+}
+
+function Voicecontentlist ( { voiceList } : { voiceList : VoiceType[]} ) {
+    return (
+        <Stack dir='row' gap={4}>
+            {voiceList.map((voice)=>{
+                return <Voicecontent voice={voice} />
             })}
         </Stack>
     )
