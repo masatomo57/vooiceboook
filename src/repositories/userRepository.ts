@@ -125,6 +125,47 @@ const userRepository = {
         return true
     },
 
+    // usersからuserを取ってきて，booklistにbookIdのキーがあるかどうかをboolで返す
+    async checkBuyBook(userId:string, bookId:string): Promise<boolean> {
+        const user = await userRepository.getUser(userId)
+        const userBookList = user.bookList
+        if (userBookList === undefined) {
+            console.log("BookListがundefinedです")
+            throw Error("BookList is undefined")
+        }
+        if (userBookList[bookId] === undefined) {
+            console.log("book is not found")
+            return false
+        } else {
+            console.log("book is found")
+            return true
+        }
+    },
+
+    // usersからuserを取ってきて，userのbooklistからbookを取ってきて，bookにvoiceIdがあるかどうかをboolで返す
+    async checkBuyVoice(userId:string, bookId:string, voiceId:string): Promise<boolean> {
+        const user = await userRepository.getUser(userId)
+        const userBookList = user.bookList
+        if (userBookList === undefined) {
+            console.log("BookListがundefinedです")
+            throw Error("BookList is undefined")
+        }
+        const userVoicesinBooks = userBookList[bookId]
+        if (userVoicesinBooks === undefined) {
+            console.log("book is not found")
+            return false
+        }
+        if (userVoicesinBooks.indexOf(voiceId) === -1) {
+            console.log("voice is not found")
+            return false
+        } else {
+            console.log("voice is found")
+            return true
+        }
+    },
+
+
+
     async deleteWork(userId:string, workId:string): Promise<any> {
         const firestore = getFirestore(app);
         const userRef = doc(firestore, `users/${userId}`)
