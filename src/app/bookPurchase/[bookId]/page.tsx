@@ -5,6 +5,7 @@ import { Bookcontent } from "@/components/book/bookcontent"
 import PurchaseButton from "@/components/purchaseButton"
 import Voicecontentlist from "@/components/voice/voicecontent"
 import { bookDummy } from "@/lib/dummy"
+import MyHeader from "@/components/myHeader"
 
 const Page = ({ params }: { params: { bookId : string }}) => {
     const book = bookDummy[0]
@@ -16,6 +17,7 @@ const Page = ({ params }: { params: { bookId : string }}) => {
 
     return (
         <Stack direction={"column"}>
+            <MyHeader />
             <Bookcontent book={book}/>
             <Stack direction={"row"}>
                 <PurchaseButton onClick={onClick} />

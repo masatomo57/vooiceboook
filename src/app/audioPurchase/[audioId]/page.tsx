@@ -6,6 +6,7 @@ import { Voicecontent } from "@/components/voice/voicecontent"
 import PurchaseButton from "@/components/purchaseButton"
 import PlayVoice from "@/components/voice/playVoice"
 import { bookDummy } from "@/lib/dummy"
+import MyHeader from "@/components/myHeader"
 
 const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
     const book = bookDummy[0]
@@ -17,6 +18,7 @@ const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
 
     return (
         <Stack direction={"column"}>
+            <MyHeader />
             <Bookcontent book={book} />
             <Stack direction={"row"}>
                 <Voicecontent voice={voice}/>

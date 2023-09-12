@@ -10,25 +10,25 @@ const MyHeader = () => {
     const userId = "test"
 
     return (
-        <Stack justify={"space-between"} direction={"row"}>
-            <Stack direction="row">
+        <Stack justify={"space-between"} direction={"row"} h={"20"} w={"100%"} bg={"blackAlpha.900"} color={"white"} align={"center"}>
+            <Stack direction="row" gap={"5"} ml={"5"} h={"100%"} align={"center"}>
                 <Link href={"/bookList"}>
-                    <Text>
-                        ボイコミ！
+                    <Text fontWeight={"bold"} fontSize={"4xl"} >
+                        VooiceBoook
                     </Text>
                 </Link>
-                <Link href={"/bookList"}>
-                    <Text>
+                <Link href={"/bookList"} hideBelow={"md"} >
+                    <Text fontSize={"xl"} align={"center"} fontWeight={"bold"}>
                         書籍
                     </Text>
                 </Link>
-                <Link href={"/audioList"}>
-                    <Text>
+                <Link href={"/audioList"} hideBelow={"md"}>
+                    <Text fontSize={"xl"} align={"center"} fontWeight={"bold"}>
                         音声
                     </Text>
                 </Link>
             </Stack>
-            <Button onClick={() => (router.push(`/user/${userId}`))}>
+            <Button onClick={() => (router.push(`/user/${userId}`))} mr={"5"} hideBelow={"md"}>
                 ユーザーページ
             </Button>
         </Stack>
