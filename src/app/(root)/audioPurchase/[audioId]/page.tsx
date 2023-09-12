@@ -5,46 +5,26 @@ import { Bookcontent } from "@/components/book/bookcontent"
 import { Voicecontent } from "@/components/voice/voicecontent"
 import PurchaseButton from "@/components/purchaseButton"
 import PlayVoice from "@/components/voice/playVoice"
-import { bookDummy } from "@/lib/dummy"
-import MyHeader from "@/components/myHeader"
 import { useEffect, useState } from "react"
 import userRepository, { User } from "@/repositories/userRepository"
 import bookRepository, { Book } from "@/repositories/bookRepository"
 import voiceRepository, { Voice } from "@/repositories/audioRepository"
 import { useRouter } from "next/navigation"
+import { testUserId } from "@/lib/dummy"
 
 const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
     const router = useRouter()
-    const blackBookData : Book = {
-        id: "",
-        name: "",
-        contents: "",
-        price: 0,
-        index: 1,
-        voiceList: [],
-        ISBNcode: "",
-        thumbnailUrl: "",
-        author: ""
-    }
-    const blankVoiceData : Voice = {
-        id: "",
-        username : "",
-        name: "",
-        userId: "",
-        bookId: "",
-        url: "",
-        thumbnailUrl: "",
-        price: 0
-    }
+
     const [user, setUser] = useState<User>();
-    const [book, setBook] = useState<Book>(blackBookData);
-    const [voice, setVoices] = useState<Voice>(blankVoiceData)
+    const [book, setBook] = useState<Book>({} as Book);
+    const [voice, setVoices] = useState<Voice>({} as Voice)
+    const userId = testUserId // (Dummy) testUserId
 
     useEffect(() =>{
         async function fetchData() {
             const _voice = await voiceRepository.getVoice(params.audioId)
             const _book = await bookRepository.getBook(_voice.bookId)
-            const _user = await userRepository.getUser("VU6f3bKr2EeHvfvfExIp6V90ojR2")
+            const _user = await userRepository.getUser(userId)
 
             setBook(_book)
             setVoices(_voice)
@@ -62,7 +42,6 @@ const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
 
     return (
         <Stack direction={"column"}>
-            <MyHeader />
             <Container maxW={"9xl"}>
                 <Heading >
                     書籍情報

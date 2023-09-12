@@ -8,8 +8,6 @@ import bookRepository, { Book } from "@/repositories/bookRepository"
 
 const Page = () => {
     const [books, setBooks] = useState<Book[]>([]);
-    /* 書籍のリストを全てとってくる操作 */
-    // const books = bookDummy
     useEffect(() =>{
         async function fetchData() {
             const _books = await bookRepository.getBooks();
@@ -20,7 +18,6 @@ const Page = () => {
     
     return (
         <Stack direction={"column"}>
-            <MyHeader />
             <Container maxW={"9xl"}>
                 <Heading>
                     書籍一覧

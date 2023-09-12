@@ -71,3 +71,5 @@ export const bookDummy: BookType[] = [{
     ISBNcode: "",
     price: 500
 }]
+
+export const testUserId = "40108899-dd6c-4d21-a11d-f60c4b873854"

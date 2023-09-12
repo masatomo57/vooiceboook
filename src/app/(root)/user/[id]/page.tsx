@@ -1,18 +1,18 @@
 "use client"
 import { Box, Center, Container, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout";
 import PlayVoice from "@/components/voice/playVoice";
-import Bookcontentlist from "@/components/book/bookcontent";
+import Bookcontentlist, { Bookcontent } from "@/components/book/bookcontent";
 import Voicecontentlist from "@/components/voice/voicecontent";
 import { Button, Card, CardBody, CardHeader, CircularProgress } from "@chakra-ui/react";
-import MyHeader from "@/components/myHeader";
 import { useRouter } from "next/navigation";
 import userRepository, { User } from "@/repositories/userRepository";
 import { useEffect, useState } from "react";
 import voiceRepository, { Voice } from "@/repositories/audioRepository";
 import bookRepository, { Book } from "@/repositories/bookRepository";
+import { testUserId } from "@/lib/dummy";
+import { Link } from "@chakra-ui/next-js";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
-    params.id = "VU6f3bKr2EeHvfvfExIp6V90ojR2"
     const router = useRouter()
     const [profileUser, setProfileUser] = useState<User>();
     const [books, setBooks] = useState<Book[]>([]);
@@ -23,7 +23,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
     useEffect(() =>{
         async function fetchData() {
-            const _me = await userRepository.getUser("xtg4SqUAsFbahQUh7g6P5xGIJkF2")
+            const _me = await userRepository.getUser(testUserId) // (Dummy) testUserId
             const _profileUser = await userRepository.getUser(params.id)
             const _works = _profileUser.workList.length != 0 ? await voiceRepository.searchVoices(_profileUser.workList) : []
             const _samples = _profileUser.sampleList.length != 0 ? await voiceRepository.searchVoices(_profileUser.sampleList) : []
@@ -38,9 +38,6 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
                 setBooks(_books)
                 setVoices(_voices)
             }
-
-            console.log(`profile id : ${_profileUser.id}`)
-            console.log(`me id : ${me?.id}`)
         }
         fetchData()
     }, [])
@@ -55,13 +52,12 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
     else if (profileUser.id == me.id) {
         return (
             <Stack direction={"column"}>
-                <MyHeader />
                     <Container maxW={"9xl"}>
                         <Heading>ユーザーページ</Heading>
                         <Text fontSize='2xl'>ID:{params.id}</Text>
                         <Card mb={4}>
                             <CardHeader>
-                                <Heading size='md'>サンプルボイス</Heading>
+                                <Heading size='md'>{profileUser.name}のサンプルボイス</Heading>
                             </CardHeader>
 
                             <CardBody>
@@ -88,12 +84,12 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
                         </Card>
                         <Card mb={4}>
                             <CardHeader>
-                                <Heading size='md'>自分の音声作品</Heading>
+                                <Heading size='md'>{profileUser.name}の音声作品</Heading>
                             </CardHeader>
                             <CardBody>
                                 <Stack divider={<StackDivider />} spacing='4'>
                                     <Voicecontentlist voiceList={works} />
-                                    <Button>新しい作品を公開</Button>
+                                    <Button onClick={() => {router.push("/upload")}}>新しい作品を公開</Button>
                                 </Stack>
                             </CardBody>
                         </Card>
@@ -102,8 +98,17 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
                                 <Heading size='md'>購入済み書籍</Heading>
                             </CardHeader>
                             <CardBody>
-                                <Stack divider={<StackDivider />} spacing='4'>
-                                    <Bookcontentlist bookList={books} />
+                                <Stack spacing='4'>
+                                    {books.map((book) => {
+                                        return (
+                                            <Stack direction={"row"} align={"center"}>
+                                                <Bookcontent book={book} />
+                                                <Link href={`/viewer/${book.id}`}>
+                                                    <Button>ビューワーへ</Button>
+                                                </Link>
+                                            </Stack>
+                                        )
+                                    })}
                                 </Stack>
                             </CardBody>
                         </Card>
@@ -123,13 +128,12 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
     }
     return (
         <Stack direction={"column"}>
-        <MyHeader />
             <Container maxW={"9xl"}>
                 <Heading>ユーザーページ</Heading>
                 <Text fontSize='2xl'>ID:{params.id}</Text>
                 <Card mb={4}>
                     <CardHeader>
-                        <Heading size='md'>サンプルボイス</Heading>
+                        <Heading size='md'>{profileUser.name}のサンプルボイス</Heading>
                     </CardHeader>
 
                     <CardBody>
@@ -149,7 +153,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
                 </Card>
                 <Card mb={4}>
                     <CardHeader>
-                        <Heading size='md'>自分の音声作品</Heading>
+                        <Heading size='md'>{profileUser.name}の音声作品</Heading>
                     </CardHeader>
                     <CardBody>
                         <Stack divider={<StackDivider />} spacing='4'>

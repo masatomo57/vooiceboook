@@ -33,7 +33,7 @@ export function Bookcontent ( { book } : { book: Book} ) {
             <Stack>
                 <CardBody>
                 <Link href={`/bookPurchase/${book.id}`}>
-                    <Heading size='md'>{book.name}</Heading>
+                    <Heading size='md'>{book.name + " " + book.index}</Heading>
                 </Link>
                 <Text py='3'>
                     {book.author}

@@ -10,35 +10,23 @@ import bookRepository, { Book } from "@/repositories/bookRepository"
 import { Voice } from "@/repositories/audioRepository"
 import userRepository, { User } from "@/repositories/userRepository"
 import { useRouter } from "next/navigation"
+import { testUserId } from "@/lib/dummy"
 
 const Page = ({ params }: { params: { bookId : string }}) => {
     const router = useRouter()
-    const blackData : Book = {
-        id: "",
-        name: "",
-        contents: "",
-        price: 0,
-        index: 1,
-        voiceList: [],
-        ISBNcode: "",
-        thumbnailUrl: "",
-        author: ""
-    }
     const [user, setUser] = useState<User>();
-    const [book, setBook] = useState<Book>(blackData);
-    const [voices, setVoices] = useState<Voice[]>([])
+    const [book, setBook] = useState<Book>({} as Book);
+    const [voices, setVoices] = useState<Voice[]>([] as Voice[])
+    const userId = testUserId // (Dummy) testUserId
 
     useEffect(() =>{
         async function fetchData() {
+            const _user = await userRepository.getUser(userId)
             const _book = await bookRepository.getBook(params.bookId)
-            console.log(_book)
-            setBook(_book)
             const _voices = await bookRepository.getVoices(_book.id)
-            setVoices(_voices)
-            //TODO user直打ち修正
-            const _user = await userRepository.getUser("VU6f3bKr2EeHvfvfExIp6V90ojR2")
-            console.log(_user)
             setUser(_user)
+            setBook(_book)
+            setVoices(_voices)
         }
         fetchData()
     }, [])
@@ -75,7 +63,6 @@ const Page = ({ params }: { params: { bookId : string }}) => {
 
     return (
         <Stack direction={"column"}>
-            <MyHeader />
             <Container maxW={"9xl"}>
                 <Heading >
                     書籍情報
