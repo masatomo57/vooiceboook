@@ -4,6 +4,7 @@ import { voiceDummy } from "@/lib/dummy"
 import { Container, Heading, Stack } from "@chakra-ui/layout"
 
 const Page = () => {
+    /* 音声作品全てのリストをとってくる操作（並びをランダムとかにした方がいい？） */
     const voice = voiceDummy
 
     return (

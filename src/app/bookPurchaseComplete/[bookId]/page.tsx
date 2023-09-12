@@ -5,6 +5,7 @@ import { Bookcontent } from "@/components/book/bookcontent"
 import { bookDummy } from "@/lib/dummy"
 
 const BookPurchaseComplete = ({ params }: { params: { bookId : string }}) => {
+    /* params.bookIdに対し書籍をとってくる */
     const book = bookDummy[0]
 
     return (
