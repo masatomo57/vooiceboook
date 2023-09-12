@@ -13,6 +13,11 @@ type UploadPageProps = {
 }
 
 const Page = ({isSampleVoice = false} : UploadPageProps) => {
+
+    /** 
+     * TODO
+     * アップロードできるファイルの制限
+     */
     const [file, setFile] = useState<File>()
     const [nowUpload, setNowUpload] = useState<boolean>(false)
 
@@ -39,13 +44,7 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
             price, 
             voiceName
         )
-        /**
-         * TODO
-         * - setUser関数の作成
-         * - bookテーブルのvoiceList配列の要素に型を与える
-         */
-
-        //Userテーブルに作品を追加
+        
         const user = await userRepository.getUser(userId)
         if (isSampleVoice) {
             const sampleList = user.sampleList;
@@ -74,8 +73,6 @@ const Page = ({isSampleVoice = false} : UploadPageProps) => {
             }
             await bookRepository.setBook(updatedBook)
         }
-
-        //booksデーブルに追加 TODOサンプルは追加しなくていいのか？
 
         setFile(undefined)
         setNowUpload(false)
