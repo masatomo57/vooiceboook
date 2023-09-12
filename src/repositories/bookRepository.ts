@@ -2,6 +2,7 @@ import { app } from "@/lib/firebase";
 import { FirebaseError } from "firebase/app";
 import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import { Voice } from "./audioRepository";
 
 export type Book = {
     id: string
@@ -13,15 +14,6 @@ export type Book = {
     ISBNcode: string
     thumbnailUrl: string
     author: string
-}
-
-export type Voice = {
-    id: string
-    name: string
-    userId: string
-    bookId: string
-    url: string
-    price: number
 }
 
 const bookRepository = {
