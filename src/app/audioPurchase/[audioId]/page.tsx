@@ -7,15 +7,57 @@ import PurchaseButton from "@/components/purchaseButton"
 import PlayVoice from "@/components/voice/playVoice"
 import { bookDummy } from "@/lib/dummy"
 import MyHeader from "@/components/myHeader"
+import { useEffect, useState } from "react"
+import userRepository, { User } from "@/repositories/userRepository"
+import bookRepository, { Book } from "@/repositories/bookRepository"
+import voiceRepository, { Voice } from "@/repositories/audioRepository"
+import { useRouter } from "next/navigation"
 
 const AudioPurchase = ({ params }: { params: { audioId : string }}) => {
-    /* params.audioIdに対し音声作品をとってくる操作 */
-    const book = bookDummy[0]
-    const voice = book.voiceList[0]
+    const router = useRouter()
+    const blackBookData : Book = {
+        id: "",
+        name: "",
+        contents: "",
+        price: 0,
+        index: 1,
+        voiceList: [],
+        ISBNcode: "",
+        thumbnailUrl: "",
+        author: ""
+    }
+    const blankVoiceData : Voice = {
+        id: "",
+        username : "",
+        name: "",
+        userId: "",
+        bookId: "",
+        url: "",
+        thumbnailUrl: "",
+        price: 0
+    }
+    const [user, setUser] = useState<User>();
+    const [book, setBook] = useState<Book>(blackBookData);
+    const [voice, setVoices] = useState<Voice>(blankVoiceData)
 
-    const onClick = () => {
-        /* 音声を購入する操作に書き換える。*/
-        alert("音声が購入されました。")
+    useEffect(() =>{
+        async function fetchData() {
+            const _voice = await voiceRepository.getVoice(params.audioId)
+            const _book = await bookRepository.getBook(_voice.bookId)
+            const _user = await userRepository.getUser("VU6f3bKr2EeHvfvfExIp6V90ojR2")
+
+            setBook(_book)
+            setVoices(_voice)
+            setUser(_user)
+        }
+        fetchData()
+    }, [])
+
+    const onClick = async() => {
+        if (user === undefined) {
+            throw Error("user is undefined. please signin")
+        }
+        userRepository.buyVoice(user.id, book.id, voice.id, voice.price)
     }
 
     return (
