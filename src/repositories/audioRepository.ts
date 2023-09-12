@@ -84,7 +84,7 @@ const voiceRepository = {
         }
     },
 
-    async uploadThenRegist(file: File, userId:string, bookId:string, price:number, voiceName: string): Promise<boolean> {
+    async uploadThenRegist(file: File, userId:string, bookId:string, price:number, voiceName: string): Promise<Voice> {
         try {
             const url = await this.upload(file)
             const voiceId = uuidv4()
@@ -97,15 +97,15 @@ const voiceRepository = {
                 price: price
             }
             const result = this.regist(voice)
-            return true
+            return voice
         }
         catch (error) {
             if (error instanceof FirebaseError) {
                 console.log(`Firebase error occurred. ${error}`)
-                return false
+                throw FirebaseError
             }
             console.log(`Unknown Error occurred. ${error}`)
-            return false
+            throw Error("Unknown Error occurred")
         }
     }
 }
