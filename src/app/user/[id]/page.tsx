@@ -60,7 +60,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
                 </Card>
                 <Card mb={4}>
                     <CardHeader>
-                        <Heading size='md'>購入書籍</Heading>
+                        <Heading size='md'>購入済み書籍</Heading>
                     </CardHeader>
                     <CardBody>
                         <Stack divider={<StackDivider />} spacing='4'>
@@ -70,7 +70,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
                 </Card>
                 <Card mb={4}>
                     <CardHeader>
-                        <Heading size='md'>音声</Heading>
+                        <Heading size='md'>購入済み音声</Heading>
                     </CardHeader>
                     <CardBody>
                         <Stack divider={<StackDivider />} spacing='4'>
